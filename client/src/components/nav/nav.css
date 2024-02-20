@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 15vh;
+  background: #172c41;
+  position: sticky;
+  top: -5vh;
+  z-index: 999;
+}
