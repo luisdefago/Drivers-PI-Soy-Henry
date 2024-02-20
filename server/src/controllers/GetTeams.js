@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const { Driver } = require("../db"); // Importa el modelo del conductor
 
 const getUniqueTeams = (drivers) => {
@@ -26,43 +27,25 @@ const getTeamsFromDatabase = async () => {
   return getUniqueTeams(drivers);
 };
 
-const getTeamsFromJSON = async () => {
+const getTeamsFromAPI = async () => {
   try {
-    // Cargar los datos del archivo JSON
-    const data = require("../../api/db.json");
-    const drivers = data.drivers; // Acceder a la clave "drivers"
+    // Hacer una solicitud para obtener todos los conductores disponibles
+    const response = await axios.get(
+      "http://127.0.0.1:3001/drivers/AllDrivers"
+    );
+    const drivers = response.data; // Suponiendo que la respuesta tiene una propiedad "data" que contiene los conductores
 
-    // Obtener equipos únicos de los conductores del archivo JSON
+    // Obtener equipos únicos de los conductores de la respuesta
     const uniqueTeams = getUniqueTeams(drivers);
 
     return uniqueTeams;
   } catch (error) {
-    console.error("Error al obtener los equipos del archivo JSON:", error);
-    throw new Error("Error al obtener los equipos del archivo JSON");
-  }
-};
-
-const getTeams = async (req, res) => {
-  try {
-    // Obtener los equipos de la base de datos
-    const teamsFromDatabase = await getTeamsFromDatabase();
-    // Obtener los equipos del archivo JSON
-    const teamsFromJSON = await getTeamsFromJSON();
-
-    // Unir los equipos de la base de datos y del archivo JSON
-    const allTeams = new Set([...teamsFromDatabase, ...teamsFromJSON]);
-
-    // Convertir el conjunto a un array y enviar la respuesta
-    const uniqueTeams = Array.from(allTeams);
-
-    // Responder con los equipos obtenidos
-    return res.json(uniqueTeams);
-  } catch (error) {
-    console.error("Error al obtener los equipos:", error);
-    return res.status(500).json({ message: "Error al obtener los equipos" });
+    console.error("Error al obtener los equipos de la API:", error);
+    throw new Error("Error al obtener los equipos de la API");
   }
 };
 
 module.exports = {
-  getTeams,
+  getTeamsFromDatabase,
+  getTeamsFromAPI,
 };
