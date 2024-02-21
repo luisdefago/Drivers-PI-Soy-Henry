@@ -11,8 +11,18 @@ const getDriversByName = async (req, res) => {
     const driversFromDatabase = await getDriversByNameFromDatabase(name);
     const driversFromServer = await getDriversByNameFromServer(name);
 
-    // Combinar los resultados de ambas búsquedas
-    const combinedDrivers = [...driversFromDatabase, ...driversFromServer];
+    // Evitar duplicados en la lista combinada de conductores
+    const uniqueDrivers = {};
+
+    driversFromDatabase.forEach((driver) => {
+      uniqueDrivers[driver.id] = driver;
+    });
+
+    driversFromServer.forEach((driver) => {
+      uniqueDrivers[driver.id] = driver;
+    });
+
+    const combinedDrivers = Object.values(uniqueDrivers);
 
     // Devolver los primeros 15 conductores encontrados
     const first15Drivers = combinedDrivers.slice(0, 15);

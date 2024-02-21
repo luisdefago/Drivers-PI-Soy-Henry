@@ -45,7 +45,7 @@ const getDriverById = async (id) => {
     throw new Error("Conductor no encontrado");
   } catch (error) {
     console.error("Error al obtener conductor:", error);
-    throw new Error("Error al obtener conductor");
+    throw new Error("Conductor no encontrado");
   }
 };
 
