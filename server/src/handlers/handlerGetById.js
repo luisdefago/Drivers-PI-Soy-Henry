@@ -1,11 +1,13 @@
-const driversController = require("../controllers/GetDriverById");
+const { getDriverById } = require("../controllers/GetDriverById");
 
 async function handleGetDriverById(req, res) {
   try {
-    const id = req.params.id;
-    const driver = await driversController.getDriverById(id);
-    if (driver) {
-      res.json(driver);
+    const { id } = req.params;
+    // Verifica si es NaN (Not a Number)
+    const source = isNaN(id) ? "db" : "api";
+    const response = await getDriverById(id, source);
+    if (response && response.length > 0) {
+      res.json(response);
     } else {
       res.status(404).json({ message: "Conductor no encontrado" });
     }

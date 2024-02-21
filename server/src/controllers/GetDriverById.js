@@ -1,8 +1,10 @@
-const { Driver } = require("../db");
 const axios = require("axios");
+const { Driver, Team } = require("../db");
 
 const getDriverByIdFromDatabase = async (id) => {
   try {
+    console.log(id);
+    console.log(await Driver.findByPk(id));
     const driver = await Driver.findByPk(id);
     return driver;
   } catch (error) {
@@ -13,39 +15,25 @@ const getDriverByIdFromDatabase = async (id) => {
 
 const getDriverByIdFromServer = async (id) => {
   try {
-    const response = await axios.get(
-      `http://127.0.0.1:3001/drivers/AllDrivers`
-    );
-    driversApi = response.data;
-    const driver = driversApi.filter((driv) => driv.id.toString() === id);
-    return driver;
+    const response = await axios.get(`"http://localhost:5000/drivers"/${id}`);
+    const driver = response.data;
+    return driver ? [driver] : [];
   } catch (error) {
     console.error("Error al obtener conductor del servidor:", error);
     throw new Error("Error al obtener conductor del servidor");
   }
 };
 
-const getDriverById = async (id) => {
+const getDriverById = async (id, source) => {
   try {
-    // Obtener el conductor por su ID desde la base de datos
-    const driverFromDatabase = await getDriverByIdFromDatabase(id);
-
-    if (driverFromDatabase) {
-      return driverFromDatabase;
+    if (source === "api") {
+      return await getDriverByIdFromServer(id);
+    } else {
+      return await getDriverByIdFromDatabase(id);
     }
-
-    // Si no se encuentra el conductor en la base de datos, buscarlo en el servidor local
-    const driverFromServer = await getDriverByIdFromServer(id);
-
-    if (driverFromServer) {
-      return driverFromServer;
-    }
-
-    // Si no se encuentra el conductor en ninguna fuente de datos, lanzar un error
-    throw new Error("Conductor no encontrado");
   } catch (error) {
     console.error("Error al obtener conductor:", error);
-    throw new Error("Conductor no encontrado");
+    throw new Error("Error al obtener conductor");
   }
 };
 

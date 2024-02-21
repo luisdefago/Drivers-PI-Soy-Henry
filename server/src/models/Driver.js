@@ -4,9 +4,10 @@ module.exports = (sequelize) => {
   console.log("Definiendo modelo Driver...");
   sequelize.define("Driver", {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
     },
     forename: {
       type: DataTypes.STRING,
