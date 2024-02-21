@@ -1,10 +1,15 @@
-const Card = ({ name, image, teams }) => {
+import { Link } from "react-router-dom";
+import "./card.css";
+
+const Card = ({ name, image, teams, id }) => {
   return (
-    <article className="card">
-      <img src={image} alt={name} />
-      <h3>{name}</h3>
-      <p>{teams}</p>
-    </article>
+    <Link to={`/detail/${id}`}>
+      <article className="card">
+        <img src={image} alt={name} className="cardImage" />
+        <h3 className="cardName">{name}</h3>
+        <p className="cardTeams">{teams}</p>
+      </article>
+    </Link>
   );
 };
 

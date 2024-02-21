@@ -1,13 +1,15 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Landing from "./pages/landingPage/landingPage";
 import Nav from "./components/nav/nav";
 import Home from "./pages/home/home";
 import { useState } from "react";
 import axios from "axios";
+import Detail from "./pages/detail/detail";
 
 function App() {
   const [drivers, setDrivers] = useState([]);
+  const { pathname } = useLocation();
 
   const onSearch = async (name) => {
     try {
@@ -38,10 +40,11 @@ function App() {
 
   return (
     <div className="App">
-      <Nav onSearch={onSearch} />
+      {pathname !== "/" && <Nav onSearch={onSearch} />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="home" element={<Home drivers={drivers} />} />
+        <Route path="/detail/:id" element={<Detail />} />
       </Routes>
     </div>
   );

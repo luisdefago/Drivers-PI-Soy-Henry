@@ -1,7 +1,41 @@
+a{
+  text-decoration: none;
+  margin-right: 20px;
+}
+
 .header {
+  background: #172c41;
+  padding: 20px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navButtons {
   display: flex;
   align-items: center;
-  width: 100vw;
-  height: 10vh;
-  background: #172c41;
+}
+
+.navButton {
+  margin-right: 20px;
+  background-color: #3c8dbc;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  height: 40px;
+}
+
+.navButton:last-child {
+  margin-right: 0;
+}
+
+.navButton:hover {
+  background-color: #367fa9;
 }

@@ -46,7 +46,8 @@ function getAllDrivers() {
 
     // Si un piloto no tiene imagen, se le coloca una por defecto
     drivers.forEach((driver) => {
-      if (!driver.image) {
+      console.log(driver);
+      if (!driver.image.url) {
         driver.image = { url: "./assets/img-default.jpg" }; // Reemplaza con la ruta de tu imagen por defecto
       }
     });

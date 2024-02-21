@@ -22,9 +22,9 @@ export default function SearchBar({ onSearch }) {
         }}
         placeholder="Enter an name"
         value={name}
-        className="input"
+        className="searchInput"
       />
-      <button className="input-btn" onClick={search}>
+      <button className="searchButton" onClick={search}>
         Add
       </button>
     </div>
