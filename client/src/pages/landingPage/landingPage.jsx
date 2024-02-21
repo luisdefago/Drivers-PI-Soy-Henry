@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./landingPage.css";
 
 const Landing = () => {
@@ -5,7 +6,9 @@ const Landing = () => {
     <div className="pageLanding">
       <div className="conteinerLanding">
         <img src="./assets/flecha.png" className="imgLanding" />
-        <button className="buttonLanding">Haz click aquí</button>
+        <Link to="/home">
+          <button className="buttonLanding">Haz click aquí</button>
+        </Link>
       </div>
       <img src="./assets/Hamilton.png" alt="" className="imgHamilton" />
     </div>
