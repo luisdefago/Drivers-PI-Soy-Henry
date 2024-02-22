@@ -7,7 +7,7 @@ const Landing = () => {
       <div className="conteinerLanding">
         <img src="./assets/flecha.png" className="imgLanding" />
         <Link to="/home">
-          <button className="buttonLanding">Haz click aquí</button>
+          <button className="buttonLanding">Click here!</button>
         </Link>
       </div>
       <img src="./assets/Hamilton.png" alt="" className="imgHamilton" />

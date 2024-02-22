@@ -8,9 +8,7 @@ a{
   background: radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
   background: -webkit-radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
   background: -moz-radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
-  box-shadow: -1px 10px 53px 22px rgba(17,0,101,0.71);
--webkit-box-shadow: -1px 10px 53px 22px rgba(17,0,101,0.71);
--moz-box-shadow: -1px 10px 53px 22px rgba(17,0,101,0.71);
+  border-bottom: solid rgb(123, 123, 123) 1px;
   padding: 30px;
   height: 60px;
   display: flex;
