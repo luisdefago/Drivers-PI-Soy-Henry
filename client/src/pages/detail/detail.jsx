@@ -30,15 +30,23 @@ const Detail = () => {
       {driver.length === 0 ? (
         <p className="detailCarga">Cargando...</p>
       ) : (
-        <section className="detail detail-card">
-          <div className="detailContainer">
-            <div className="detailContainerNames">
-              <h3 className="detailName">
-                Nombre: {driver[0][0]?.name?.forename}
-              </h3>
-              <h3 className="detailName">
-                Apellido: {driver[0][0]?.name?.surname}
-              </h3>
+        <section className="detail">
+          <div className="detailInfImg">
+            <div className="detailConteinInf">
+              <div className="detailContName">
+                <h3 className="detailName">
+                  Nombre: {driver[0][0]?.name?.forename}
+                </h3>
+                <h3 className="detailName">
+                  Apellido: {driver[0][0]?.name?.surname}
+                </h3>
+              </div>
+              <p className="detailInf">Teams: {driver[0][0]?.teams}</p>
+              <p className="detailInf">
+                Nationality: {driver[0][0]?.nationality}
+              </p>
+              <p className="detailInf">Dob: {driver[0][0]?.dob}</p>
+              <p className="detailInf">Id: {driver[0][0]?.id}</p>
             </div>
             <div className="det-cont-img">
               <img
@@ -47,18 +55,12 @@ const Detail = () => {
                 alt={`${driver[0][0]?.name?.forename} ${driver[0][0]?.name?.surname}`}
               />
             </div>
-            <div className="detailConteinInf detail-cont-inf">
-              <p className="detailInf">Teams: {driver[0][0]?.teams}</p>
-              <p className="detailInf">
-                Nationality: {driver[0][0]?.nationality}
-              </p>
-              <p className="detailInf">
-                Description: {driver[0][0]?.description}
-              </p>
-              <p className="detailInf">Dob: {driver[0][0]?.dob}</p>
-              <p className="detailInf">Id: {driver[0][0]?.id}</p>
-            </div>
           </div>
+          {driver[0][0]?.description ? (
+            <p className="detailDescrip">
+              Description: {driver[0][0]?.description}
+            </p>
+          ) : null}
         </section>
       )}
     </main>
