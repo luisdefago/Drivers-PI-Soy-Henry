@@ -27,8 +27,8 @@ a{
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  font-size: 20px;
+  transition: all 0.3s ease;
   height: 40px;
 }
 
@@ -38,4 +38,5 @@ a{
 
 .navButton:hover {
   background-color: #367fa9;
+  color: rgb(178, 178, 178);
 }

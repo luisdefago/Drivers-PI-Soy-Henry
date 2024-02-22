@@ -10,7 +10,7 @@ const Nav = ({ onSearch }) => {
           <Link to={"/home"}>
             <button className="navButton">Home</button>
           </Link>
-          <button className="navButton">About me</button>
+          <button className="navButton">Create</button>
         </div>
         <div className="navSearch">
           <SearchBar onSearch={onSearch} />

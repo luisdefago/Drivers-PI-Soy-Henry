@@ -1,18 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "./detail.css";
 
 const Detail = () => {
   const { id } = useParams();
-  const [driver, setDriver] = useState({});
+  const [driver, setDriver] = useState([]);
 
   useEffect(() => {
     axios
       .get(`http://127.0.0.1:3001/drivers/driverById/${id}`)
       .then(({ data }) => {
-        if (!data) {
+        if (!data || data.length === 0) {
           alert("No hay conductor con ese ID");
-          setDriver({});
+          setDriver([]);
         } else {
           setDriver(data);
         }
@@ -24,14 +25,43 @@ const Detail = () => {
   }, [id]);
 
   console.log(driver);
-
   return (
-    <div>
-      <h2>Detalles del Conductor</h2>
-      {/* <p>Nombre: {driver.forename}</p>
-      <p>Apellido: {driver.surname}</p> */}
-      {/* Agrega más detalles del conductor aquí */}
-    </div>
+    <main className="detailPage">
+      {driver.length === 0 ? (
+        <p className="detailCarga">Cargando...</p>
+      ) : (
+        <section className="detail detail-card">
+          <div className="detailContainer">
+            <div className="detailContainerNames">
+              <h3 className="detailName">
+                Nombre: {driver[0][0]?.name?.forename}
+              </h3>
+              <h3 className="detailName">
+                Apellido: {driver[0][0]?.name?.surname}
+              </h3>
+            </div>
+            <div className="det-cont-img">
+              <img
+                className="detailImg detail-img"
+                src={driver[0][0]?.image?.url}
+                alt={`${driver[0][0]?.name?.forename} ${driver[0][0]?.name?.surname}`}
+              />
+            </div>
+            <div className="detailConteinInf detail-cont-inf">
+              <p className="detailInf">Teams: {driver[0][0]?.teams}</p>
+              <p className="detailInf">
+                Nationality: {driver[0][0]?.nationality}
+              </p>
+              <p className="detailInf">
+                Description: {driver[0][0]?.description}
+              </p>
+              <p className="detailInf">Dob: {driver[0][0]?.dob}</p>
+              <p className="detailInf">Id: {driver[0][0]?.id}</p>
+            </div>
+          </div>
+        </section>
+      )}
+    </main>
   );
 };
 

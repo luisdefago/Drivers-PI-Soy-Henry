@@ -7,9 +7,12 @@ export default function SearchBar({ onSearch }) {
     setName(evento.target.value);
   }
   function search() {
-    onSearch(name);
-    setName("");
+    if (name.trim() !== "") {
+      onSearch(name);
+      setName("");
+    }
   }
+
   return (
     <div className="searchBar">
       <input
