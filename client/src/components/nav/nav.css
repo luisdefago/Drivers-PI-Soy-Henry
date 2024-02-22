@@ -4,8 +4,18 @@ a{
 }
 
 .header {
-  background: #172c41;
-  padding: 20px;
+  background: #071534;
+  background: radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
+  background: -webkit-radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
+  background: -moz-radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
+  box-shadow: -1px 10px 53px 22px rgba(17,0,101,0.71);
+-webkit-box-shadow: -1px 10px 53px 22px rgba(17,0,101,0.71);
+-moz-box-shadow: -1px 10px 53px 22px rgba(17,0,101,0.71);
+  padding: 30px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav {
@@ -17,26 +27,28 @@ a{
 .navButtons {
   display: flex;
   align-items: center;
+  margin-right: 20px;
 }
 
 .navButton {
-  margin-right: 20px;
+  margin-right: 10px;
   background-color: #3c8dbc;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 22px;
   transition: all 0.3s ease;
-  height: 40px;
-}
-
-.navButton:last-child {
-  margin-right: 0;
+  height: 50px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  text-shadow: 0px 0px 2px white;
+  box-shadow: 0px 8px 15px rgba(0, 106, 255, 0.608);
 }
 
 .navButton:hover {
   background-color: #367fa9;
   color: rgb(178, 178, 178);
+  box-shadow: none;
 }
