@@ -10,7 +10,7 @@ a{
   background: -moz-radial-gradient(circle farthest-corner at center center, #071534 0%, #001077 200%);
   border-bottom: solid rgb(123, 123, 123) 1px;
   padding: 30px;
-  height: 60px;
+  height: 6vh;
   display: flex;
   justify-content: center;
   align-items: center;

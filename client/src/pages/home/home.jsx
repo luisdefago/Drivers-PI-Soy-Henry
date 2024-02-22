@@ -2,17 +2,20 @@ import Card from "../../components/card/card";
 import "./home.css";
 
 const Home = ({ drivers }) => {
-  console.log(drivers);
   return (
     <main className="home">
       <section className="homeCards">
-        {drivers.map(({ id, name, teams, image }) => (
+        {drivers.map((driver) => (
           <Card
-            key={id}
-            id={id}
-            name={`${name.forename} ${name.surname}`}
-            image={image.url}
-            teams={teams}
+            key={driver.id}
+            id={driver.id}
+            name={
+              driver.name
+                ? `${driver.name.forename} ${driver.name.surname}`
+                : `${driver.forename} ${driver.surname}`
+            }
+            image={driver.image.url ? driver.image.url : driver.image}
+            teams={driver.teams}
           />
         ))}
       </section>
