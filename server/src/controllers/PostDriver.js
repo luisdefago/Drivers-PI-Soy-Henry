@@ -19,7 +19,7 @@ const postDriver = async (
       dob,
     });
 
-    const teamNames = teams.split(";").map((team) => team.trim());
+    const teamNames = teams.split(",").map((team) => team.trim());
     const foundTeams = await Team.findAll({
       where: {
         name: teamNames,

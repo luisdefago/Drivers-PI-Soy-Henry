@@ -1,20 +1,17 @@
-const { default: axios } = require("axios");
-const { Driver } = require("../db"); // Importa el modelo del conductor
+const { Team } = require("../db");
+const axios = require("axios");
 
 const getUniqueTeams = (drivers) => {
   const teamsSet = new Set();
   drivers.forEach((driver) => {
-    // Verificar si la propiedad "teams" es una cadena
     if (typeof driver.teams === "string") {
-      // Dividir la cadena en un array y agregar cada equipo al conjunto
       const teamsArray = driver.teams.split(",");
       teamsArray.forEach((team) => {
-        teamsSet.add(team.trim()); // Eliminar espacios en blanco alrededor del nombre del equipo
+        teamsSet.add(team.trim());
       });
     } else if (Array.isArray(driver.teams)) {
-      // Si la propiedad "teams" es un array, agregar cada equipo al conjunto
       driver.teams.forEach((team) => {
-        teamsSet.add(team.trim()); // Eliminar espacios en blanco alrededor del nombre del equipo
+        teamsSet.add(team.trim());
       });
     }
   });
@@ -22,22 +19,17 @@ const getUniqueTeams = (drivers) => {
 };
 
 const getTeamsFromDatabase = async () => {
-  // Función para obtener los equipos de la base de datos
-  const drivers = await Driver.findAll();
-  return getUniqueTeams(drivers);
+  const teams = await Team.findAll();
+  return teams.map((team) => team.name);
 };
 
 const getTeamsFromAPI = async () => {
   try {
-    // Hacer una solicitud para obtener todos los conductores disponibles
     const response = await axios.get(
       "http://127.0.0.1:3001/drivers/AllDrivers"
     );
-    const drivers = response.data; // Suponiendo que la respuesta tiene una propiedad "data" que contiene los conductores
-
-    // Obtener equipos únicos de los conductores de la respuesta
+    const drivers = response.data;
     const uniqueTeams = getUniqueTeams(drivers);
-
     return uniqueTeams;
   } catch (error) {
     console.error("Error al obtener los equipos de la API:", error);
@@ -45,7 +37,36 @@ const getTeamsFromAPI = async () => {
   }
 };
 
+const saveTeamsToDatabase = async (teams) => {
+  try {
+    const existingTeams = await Team.findAll();
+    if (existingTeams.length === 0) {
+      const teamsToSave = teams.map((name) => ({ name }));
+      await Team.bulkCreate(teamsToSave);
+      console.log("Teams agregados a la db");
+    }
+  } catch (error) {
+    console.error("Error al guardar los equipos en la base de datos:", error);
+    throw new Error("Error al guardar los equipos en la base de datos");
+  }
+};
+
+const getTeams = async () => {
+  let teamsFromDatabase;
+  try {
+    teamsFromDatabase = await getTeamsFromDatabase();
+    if (teamsFromDatabase.length === 0) {
+      const teamsFromAPI = await getTeamsFromAPI();
+      await saveTeamsToDatabase(teamsFromAPI);
+      teamsFromDatabase = teamsFromAPI;
+    }
+  } catch (error) {
+    console.error("Error al obtener los equipos:", error);
+    throw new Error("Error al obtener los equipos");
+  }
+  return teamsFromDatabase;
+};
+
 module.exports = {
-  getTeamsFromDatabase,
-  getTeamsFromAPI,
+  getTeams,
 };
