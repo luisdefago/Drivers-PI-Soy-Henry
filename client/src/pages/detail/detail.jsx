@@ -50,8 +50,6 @@ const Detail = () => {
     );
   }
 
-  console.log(driver);
-
   return (
     <main className="detailPage">
       <section className="detail">
