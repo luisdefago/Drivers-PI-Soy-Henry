@@ -6,6 +6,7 @@ import Home from "./pages/home/home";
 import { useState } from "react";
 import axios from "axios";
 import Detail from "./pages/detail/detail";
+import CreateDriverForm from "./pages/createDriver/createDriver";
 
 function App() {
   const [drivers, setDrivers] = useState([]);
@@ -43,7 +44,8 @@ function App() {
       {pathname !== "/" && <Nav onSearch={onSearch} />}
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="home" element={<Home drivers={drivers} />} />
+        <Route path="/home" element={<Home drivers={drivers} />} />
+        <Route path="/form" element={<CreateDriverForm />} />
         <Route path="/detail/:id" element={<Detail />} />
       </Routes>
     </div>

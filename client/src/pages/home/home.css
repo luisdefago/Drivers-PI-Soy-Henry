@@ -6,7 +6,7 @@
   background-image: url('./assets/fondo.jpg');
   background-size: cover;
   background-attachment: fixed;
-  min-height: 100vh;
+  min-height: 83.2vh;
 }
 
 .homeCards {
