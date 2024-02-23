@@ -39,12 +39,26 @@ function App() {
     }
   };
 
+  const fetchDrivers = async () => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:3001/drivers/AllDrivers"
+      );
+      setDrivers(response.data.slice(0, 3));
+    } catch (error) {
+      console.error("Error al cargar los drivers:", error);
+    }
+  };
+
   return (
     <div className="App">
       {pathname !== "/" && <Nav onSearch={onSearch} />}
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home drivers={drivers} />} />
+        <Route
+          path="/home"
+          element={<Home drivers={drivers} fetchDrivers={fetchDrivers} />}
+        />
         <Route path="/form" element={<CreateDriverForm />} />
         <Route path="/detail/:id" element={<Detail />} />
       </Routes>

@@ -3,7 +3,6 @@ const { Driver, Team } = require("../db");
 
 const getDriverByIdFromDatabase = async (id) => {
   try {
-    console.log(id, typeof id);
     const driver = await Driver.findByPk(id, {
       include: {
         model: Team,
@@ -13,7 +12,6 @@ const getDriverByIdFromDatabase = async (id) => {
         },
       },
     });
-    console.log(driver);
     return driver;
   } catch (error) {
     console.error("Error al obtener conductor de la base de datos:", error);
@@ -41,7 +39,6 @@ const getDriverByIdFromServer = async (id) => {
 
 const getDriverById = async (id, source) => {
   try {
-    console.log(source, id);
     if (source === "api") {
       return await getDriverByIdFromServer(id);
     } else {

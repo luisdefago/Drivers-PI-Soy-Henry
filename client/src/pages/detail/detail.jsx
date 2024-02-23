@@ -24,13 +24,12 @@ const Detail = () => {
       });
   }, [id]);
 
-  console.log(driver);
   return (
     <main className="detailPage">
       {driver.length === 0 ? (
         <img
           className="detailCarga"
-          src="../../../public/assets/auto-f1.png"
+          src="/assets/auto-f1.png"
           alt="Loading..."
         />
       ) : (
@@ -55,11 +54,7 @@ const Detail = () => {
             <div className="det-cont-img">
               <img
                 className="detailImg detail-img"
-                src={
-                  driver[0][0]?.image?.url === "./assets/img-default.jpg"
-                    ? "../../../public/assets/img-default.jpg"
-                    : driver[0][0]?.image?.url
-                }
+                src={driver[0][0]?.image?.url}
                 alt={`${driver[0][0]?.name?.forename} ${driver[0][0]?.name?.surname}`}
               />
             </div>
