@@ -1,18 +1,17 @@
 const axios = require("axios");
-const { Driver, Team } = require("../db");
+const { Driver, Team, driverTeam } = require("../db");
 
 const getDriverByIdFromDatabase = async (id) => {
   try {
-    const driver = await Driver.findByPk(id, {
-      include: {
-        model: Team,
-        attributes: ["name"],
-        through: {
-          attributes: [],
-        },
-      },
+    // Busca el conductor por su ID
+    const driverDB = await Driver.findOne({
+      where: { id },
     });
-    return driver;
+    console.log("Driver byId: ", driverDB);
+
+    if (driverDB) {
+      return driverDB;
+    }
   } catch (error) {
     console.error("Error al obtener conductor de la base de datos:", error);
     throw new Error("Error al obtener conductor de la base de datos");

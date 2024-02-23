@@ -6,7 +6,7 @@ async function handleGetDriverById(req, res) {
     // Verifica si es NaN (Not a Number)
     const source = isNaN(id) ? "db" : "api";
     const response = await getDriverById(id, source);
-    if (response && response.length > 0) {
+    if (response) {
       res.json(response);
     } else {
       res.status(404).json({ message: "Conductor no encontrado" });
