@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 const { Sequelize } = require("sequelize");
-const { Driver } = require("../db");
+const { Driver, Team } = require("../db");
 
 const getDriversByNameFromDatabase = async (name) => {
   // Lógica para buscar conductores en la base de datos por nombre
@@ -11,7 +11,9 @@ const getDriversByNameFromDatabase = async (name) => {
         { surname: { [Sequelize.Op.iLike]: `%${name}%` } },
       ],
     },
+    include: [{ model: Team, through: "DriverTeam" }],
   });
+
   return drivers;
 };
 

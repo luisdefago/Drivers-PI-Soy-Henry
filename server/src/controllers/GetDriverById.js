@@ -9,8 +9,6 @@ const getDriverByIdFromDatabase = async (id) => {
       include: [{ model: Team, through: "DriverTeam" }],
     });
 
-    console.log("Driver byId: ", driverDB);
-
     if (driverDB) {
       return driverDB;
     }

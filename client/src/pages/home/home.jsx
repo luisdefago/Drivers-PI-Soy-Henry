@@ -41,7 +41,11 @@ const Home = () => {
                   : `${driver.forename} ${driver.surname}`
               }
               image={driver.image.url ? driver.image.url : driver.image}
-              teams={driver.teams}
+              teams={
+                Array.isArray(driver?.Teams)
+                  ? driver?.Teams.map((team) => team.name).join(", ")
+                  : driver?.teams
+              }
             />
           ))
         )}
