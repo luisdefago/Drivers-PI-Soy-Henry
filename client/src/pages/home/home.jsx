@@ -19,6 +19,13 @@ const Home = () => {
   const driversPerPage = useSelector((state) => state.driversPerPage);
 
   useEffect(() => {
+    // Llamada a la acción correspondiente para establecer el ordenamiento al cargar la página
+    if (selectedOrder === "name") {
+      dispatch(setOrderName(selectedDirection));
+    } else if (selectedOrder === "dob") {
+      dispatch(setOrderDob(selectedDirection));
+    }
+
     if (drivers.length === 0) {
       dispatch(fetchDrivers())
         .then(() => setLoading(false))
@@ -28,7 +35,7 @@ const Home = () => {
     } else {
       setLoading(false);
     }
-  }, [drivers, dispatch]);
+  }, [dispatch, drivers.length, selectedOrder, selectedDirection]);
 
   const startIndex = (currentPage - 1) * driversPerPage;
   const endIndex = startIndex + driversPerPage;
@@ -36,22 +43,11 @@ const Home = () => {
   const handleOrderChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedOrder(selectedValue);
-    // No cambiamos la dirección del orden al cambiar el tipo de ordenamiento
-    if (selectedValue === "name") {
-      dispatch(setOrderName(selectedDirection));
-    } else if (selectedValue === "dob") {
-      dispatch(setOrderDob(selectedDirection));
-    }
   };
 
   const handleDirectionChange = (event) => {
     const selectedDirection = event.target.value;
     setSelectedDirection(selectedDirection);
-    if (selectedOrder === "name") {
-      dispatch(setOrderName(selectedDirection));
-    } else if (selectedOrder === "dob") {
-      dispatch(setOrderDob(selectedDirection));
-    }
   };
 
   return (

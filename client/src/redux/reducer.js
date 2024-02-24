@@ -1,3 +1,4 @@
+import { sortDrivers } from "./actions/actionsCreators";
 import {
   FETCH_DRIVERS,
   FETCH_DRIVER_BY_ID,
@@ -14,18 +15,24 @@ const initialState = {
   error: null,
   currentPage: 1,
   driversPerPage: 9,
+  selectedOrder: "name", // Estado para el tipo de ordenamiento seleccionado
+  selectedDirection: "ASC", // Estado para el orden ascendente/descendente
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SEARCH_DRIVERS:
-      // Filtrar conductores duplicados antes de agregar nuevos conductores
-      const newDrivers = action.payload.filter((driver) =>
+      const filteredDrivers = action.payload.filter((driver) =>
         state.drivers.every((existingDriver) => existingDriver.id !== driver.id)
+      );
+      const orderedFilteredDrivers = sortDrivers(
+        filteredDrivers,
+        state.selectedOrder,
+        state.selectedDirection
       );
       return {
         ...state,
-        drivers: [...newDrivers, ...state.drivers],
+        drivers: [...orderedFilteredDrivers, ...state.drivers],
       };
     case FETCH_DRIVERS:
       return {
@@ -46,34 +53,18 @@ const reducer = (state = initialState, action) => {
         driversPerPage: action.payload.driversPerPage,
       };
     case ORDER_NAME:
-      const nameDirection = action.payload;
-      let orderedDriversByName = [...state.drivers];
-      orderedDriversByName.sort((a, b) => {
-        const nameA = `${a.name?.forename || a.forename || ""} ${
-          a.name?.surname || a.surname || ""
-        }`;
-        const nameB = `${b.name?.forename || b.forename || ""} ${
-          b.name?.surname || b.surname || ""
-        }`;
-        const comparison = nameA.localeCompare(nameB);
-        return nameDirection === "ASC" ? comparison : -comparison;
-      });
       return {
         ...state,
-        drivers: orderedDriversByName,
+        selectedOrder: "name",
+        selectedDirection: action.payload,
+        drivers: sortDrivers(state.drivers, "name", action.payload),
       };
-
     case ORDER_DOB:
-      const dobDirection = action.payload;
-      let orderedDriversByDob = [...state.drivers];
-      orderedDriversByDob.sort((a, b) => {
-        const dobA = new Date(a.dob);
-        const dobB = new Date(b.dob);
-        return dobDirection === "ASC" ? dobA - dobB : dobB - dobA;
-      });
       return {
         ...state,
-        drivers: orderedDriversByDob,
+        selectedOrder: "dob",
+        selectedDirection: action.payload,
+        drivers: sortDrivers(state.drivers, "dob", action.payload),
       };
     default:
       return state;

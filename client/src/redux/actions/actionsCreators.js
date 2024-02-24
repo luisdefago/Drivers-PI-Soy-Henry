@@ -133,3 +133,26 @@ export const setOrderDob = (direction) => {
     }
   };
 };
+
+export const sortDrivers = (drivers, selectedOrder, selectedDirection) => {
+  let sortedDrivers = [...drivers];
+  if (selectedOrder === "name") {
+    sortedDrivers.sort((a, b) => {
+      const nameA = `${a.name?.forename || a.forename || ""} ${
+        a.name?.surname || a.surname || ""
+      }`;
+      const nameB = `${b.name?.forename || b.forename || ""} ${
+        b.name?.surname || b.surname || ""
+      }`;
+      const comparison = nameA.localeCompare(nameB);
+      return selectedDirection === "ASC" ? comparison : -comparison;
+    });
+  } else if (selectedOrder === "dob") {
+    sortedDrivers.sort((a, b) => {
+      const dobA = new Date(a.dob);
+      const dobB = new Date(b.dob);
+      return selectedDirection === "ASC" ? dobA - dobB : dobB - dobA;
+    });
+  }
+  return sortedDrivers;
+};
