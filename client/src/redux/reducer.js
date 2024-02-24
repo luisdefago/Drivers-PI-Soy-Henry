@@ -49,11 +49,22 @@ const reducer = (state = initialState, action) => {
       let orderedDrivers = [...state.drivers];
       if (type === "name") {
         orderedDrivers.sort((a, b) => {
-          const nameA = a.name?.forename || a.forename || "";
-          const nameB = b.name?.forename || b.forename || "";
-          return direction === "ASC"
-            ? nameA.localeCompare(nameB)
-            : nameB.localeCompare(nameA);
+          const nameA = `${a.name?.forename || a.forename || ""} ${
+            a.name?.surname || a.surname || ""
+          }`;
+          const nameB = `${b.name?.forename || b.forename || ""} ${
+            b.name?.surname || b.surname || ""
+          }`;
+          const comparison = nameA.localeCompare(nameB);
+          // Si los nombres son iguales, compara por apellidos
+          if (comparison === 0) {
+            const surnameA = a.name?.surname || a.surname || "";
+            const surnameB = b.name?.surname || b.surname || "";
+            return direction === "ASC"
+              ? surnameA.localeCompare(surnameB)
+              : surnameB.localeCompare(surnameA);
+          }
+          return direction === "ASC" ? comparison : -comparison;
         });
       } else if (type === "dob") {
         orderedDrivers.sort((a, b) => {
@@ -62,6 +73,7 @@ const reducer = (state = initialState, action) => {
           return direction === "ASC" ? dobA - dobB : dobB - dobA;
         });
       }
+
       return {
         ...state,
         drivers: orderedDrivers,
