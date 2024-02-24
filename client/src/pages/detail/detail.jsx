@@ -48,7 +48,12 @@ const Detail = () => {
                 Apellido: {driver?.name?.surname || driver?.surname}
               </h3>
             </div>
-            <p className="detailInf">Teams: {driver?.teams}</p>
+            <p className="detailInf">
+              Teams:{" "}
+              {Array.isArray(driver?.Teams)
+                ? driver?.Teams.map((team) => team.name).join(", ")
+                : driver?.teams}
+            </p>
             <p className="detailInf">Nationality: {driver?.nationality}</p>
             <p className="detailInf">Dob: {driver?.dob}</p>
             <p className="detailInf">Id: {driver?.id}</p>

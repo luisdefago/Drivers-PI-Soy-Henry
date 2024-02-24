@@ -1,12 +1,14 @@
 const axios = require("axios");
-const { Driver, Team, driverTeam } = require("../db");
+const { Driver, Team } = require("../db");
 
 const getDriverByIdFromDatabase = async (id) => {
   try {
     // Busca el conductor por su ID
     const driverDB = await Driver.findOne({
       where: { id },
+      include: [{ model: Team, through: "DriverTeam" }],
     });
+
     console.log("Driver byId: ", driverDB);
 
     if (driverDB) {
