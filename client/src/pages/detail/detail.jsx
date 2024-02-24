@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDriverById } from "../../redux/actions/actionsCreators";
 import "./detail.css";
+import { fetchDriverById } from "../../redux/actions/actionsCreators";
 
 const Detail = () => {
   const { id } = useParams();

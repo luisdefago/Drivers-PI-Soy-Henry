@@ -1,7 +1,11 @@
 import axios from "axios";
-import { FETCH_DRIVERS, SEARCH_DRIVERS } from "./actionsTypes";
-import { FETCH_DRIVER_BY_ID } from "./actionTypes";
+import {
+  FETCH_DRIVERS,
+  SEARCH_DRIVERS,
+  FETCH_DRIVER_BY_ID,
+} from "./actionsTypes";
 
+// Función creadora de acción para buscar conductores por id
 export const fetchDriverById = (id) => {
   return async (dispatch) => {
     try {
@@ -9,13 +13,24 @@ export const fetchDriverById = (id) => {
         `http://127.0.0.1:3001/drivers/driverById/${id}`
       );
       const data = response.data;
-      dispatch({
-        type: FETCH_DRIVER_BY_ID,
-        payload: data,
-      });
+
+      // Si data es un array y tiene al menos un elemento
+      if (Array.isArray(data) && data.length > 0) {
+        dispatch({
+          type: FETCH_DRIVER_BY_ID,
+          payload: data[0][0],
+        });
+      } else if (!Array.isArray(data) && typeof data === "object") {
+        // Si data es un objeto
+        dispatch({
+          type: FETCH_DRIVER_BY_ID,
+          payload: data, // Tomar el objeto directamente
+        });
+      } else {
+        console.error("Error: Respuesta de servidor inesperada");
+      }
     } catch (error) {
       console.error("Error al obtener detalles del conductor:", error);
-      // Aquí puedes manejar el error como lo desees
     }
   };
 };
