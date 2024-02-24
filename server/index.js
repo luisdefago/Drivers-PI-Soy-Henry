@@ -5,7 +5,7 @@ const PORT = 3001;
 
 // cuando vaya a presentar setear force como false
 conn
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     server.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);

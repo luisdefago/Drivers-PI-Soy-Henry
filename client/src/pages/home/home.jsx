@@ -1,25 +1,37 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/card/card";
 import "./home.css";
+import { fetchDrivers } from "../../redux/actions/actionsCreators";
 
-const Home = ({ drivers, fetchDrivers }) => {
+const Home = () => {
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const drivers = useSelector((state) => state.drivers);
+
   useEffect(() => {
     if (drivers.length === 0) {
-      fetchDrivers();
+      dispatch(fetchDrivers())
+        .then(() => setLoading(false))
+        .catch((error) =>
+          console.error("Error al cargar los conductores:", error)
+        );
+    } else {
+      setLoading(false);
     }
-  }, [drivers, fetchDrivers]);
+  }, [drivers, dispatch]);
 
   return (
     <main className="home">
       <section className="homeCards">
-        {drivers.map((driver) =>
-          drivers.length === 0 ? (
-            <img
-              className="detailCarga"
-              src="/assets/auto-f1.png"
-              alt="Loading..."
-            />
-          ) : (
+        {loading ? (
+          <img
+            className="detailCarga"
+            src="/assets/auto-f1.png"
+            alt="Loading..."
+          />
+        ) : (
+          drivers.map((driver) => (
             <Card
               key={driver.id}
               id={driver.id}
@@ -31,7 +43,7 @@ const Home = ({ drivers, fetchDrivers }) => {
               image={driver.image.url ? driver.image.url : driver.image}
               teams={driver.teams}
             />
-          )
+          ))
         )}
       </section>
     </main>

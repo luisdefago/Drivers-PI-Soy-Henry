@@ -9,6 +9,10 @@
   min-height: 83.2vh;
 }
 
+a{
+  margin-right: 0;
+}
+
 .homeCards {
   display: flex;
   flex-wrap: wrap;

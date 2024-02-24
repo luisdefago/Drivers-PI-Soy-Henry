@@ -1,17 +1,23 @@
 import { useState } from "react";
 import "./searchBar.css";
+import { useDispatch } from "react-redux";
+import { searchDrivers } from "../../redux/actions/actionsCreators";
 
-export default function SearchBar({ onSearch }) {
+export default function SearchBar() {
   const [name, setName] = useState("");
-  function handleChange(evento) {
-    setName(evento.target.value);
-  }
-  function search() {
+  const dispatch = useDispatch(); // Obtén la función dispatch del store
+
+  const handleChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const search = () => {
     if (name.trim() !== "") {
-      onSearch(name);
+      // Dispatch de la acción searchDrivers con el nombre como argumento
+      dispatch(searchDrivers(name));
       setName("");
     }
-  }
+  };
 
   return (
     <div className="searchBar">
@@ -23,12 +29,12 @@ export default function SearchBar({ onSearch }) {
             search();
           }
         }}
-        placeholder="Enter an name"
+        placeholder="Enter a name"
         value={name}
         className="searchInput"
       />
       <button className="searchButton" onClick={search}>
-        Add
+        Search
       </button>
     </div>
   );

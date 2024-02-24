@@ -1,34 +1,19 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDriverById } from "../../redux/actions/actionsCreators";
 import "./detail.css";
 
 const Detail = () => {
   const { id } = useParams();
-  const [driver, setDriver] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const driver = useSelector((state) => state.driver);
+  const loading = useSelector((state) => state.loading);
+  const error = useSelector((state) => state.error);
 
   useEffect(() => {
-    axios
-      .get(`http://127.0.0.1:3001/drivers/driverById/${id}`)
-      .then(({ data }) => {
-        if (!data || data.length === 0) {
-          setError("No se encontró ningún conductor con ese ID");
-        } else {
-          if (Array.isArray(data[0])) {
-            setDriver(data[0][0]);
-          } else {
-            setDriver(data);
-          }
-        }
-      })
-      .catch((error) => {
-        console.error("Error al obtener detalles del conductor:", error);
-        setError("Hubo un error al obtener detalles del conductor");
-      })
-      .finally(() => setLoading(false));
-  }, [id]);
+    dispatch(fetchDriverById(id));
+  }, [id, dispatch]);
 
   if (loading) {
     return (

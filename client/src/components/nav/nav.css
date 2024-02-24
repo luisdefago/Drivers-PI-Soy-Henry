@@ -1,6 +1,5 @@
 a{
   text-decoration: none;
-  margin-right: 20px;
 }
 
 .header {
@@ -18,8 +17,9 @@ a{
 
 .nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  width: 95%;
 }
 
 .navButtons {
@@ -29,7 +29,7 @@ a{
 }
 
 .navButton {
-  margin-right: 10px;
+  margin-right: 20px;
   background-color: #3c8dbc;
   color: white;
   border: none;
