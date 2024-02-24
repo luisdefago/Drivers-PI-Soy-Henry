@@ -3,6 +3,7 @@ import {
   FETCH_DRIVERS,
   SEARCH_DRIVERS,
   FETCH_DRIVER_BY_ID,
+  PAGINATE,
 } from "./actionsTypes";
 
 // Función creadora de acción para buscar conductores por id
@@ -74,6 +75,19 @@ export const fetchDrivers = () => {
       });
     } catch (error) {
       console.error("Error al cargar los drivers:", error);
+    }
+  };
+};
+
+export const setPage = (page, driversPerPage = 9) => {
+  return async function (dispatch) {
+    try {
+      dispatch({
+        type: PAGINATE,
+        payload: { page, driversPerPage },
+      });
+    } catch (error) {
+      console.log(error.message);
     }
   };
 };

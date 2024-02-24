@@ -1,6 +1,7 @@
 import {
   FETCH_DRIVERS,
   FETCH_DRIVER_BY_ID,
+  PAGINATE,
   SEARCH_DRIVERS,
 } from "./actions/actionsTypes";
 
@@ -9,6 +10,8 @@ const initialState = {
   driver: null,
   loading: false,
   error: null,
+  currentPage: 1,
+  driversPerPage: 9,
 };
 
 const reducer = (state = initialState, action) => {
@@ -30,6 +33,12 @@ const reducer = (state = initialState, action) => {
         driver: action.payload,
         loading: false,
         error: null,
+      };
+    case PAGINATE:
+      return {
+        ...state,
+        currentPage: action.payload.page,
+        driversPerPage: action.payload.driversPerPage,
       };
     default:
       return state;
