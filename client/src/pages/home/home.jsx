@@ -4,13 +4,15 @@ import Card from "../../components/card/card";
 import "./home.css";
 import {
   fetchDrivers,
-  setOrder,
+  setOrderDob,
+  setOrderName,
   setPage,
 } from "../../redux/actions/actionsCreators";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState("name");
+  const [selectedDirection, setSelectedDirection] = useState("ASC");
   const dispatch = useDispatch();
   const drivers = useSelector((state) => state.drivers);
   const currentPage = useSelector((state) => state.currentPage);
@@ -28,14 +30,28 @@ const Home = () => {
     }
   }, [drivers, dispatch]);
 
-  // Calcula los índices de inicio y fin para la paginación
   const startIndex = (currentPage - 1) * driversPerPage;
   const endIndex = startIndex + driversPerPage;
 
   const handleOrderChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedOrder(selectedValue);
-    dispatch(setOrder({ type: selectedValue, direction: "ASC" }));
+    // No cambiamos la dirección del orden al cambiar el tipo de ordenamiento
+    if (selectedValue === "name") {
+      dispatch(setOrderName(selectedDirection));
+    } else if (selectedValue === "dob") {
+      dispatch(setOrderDob(selectedDirection));
+    }
+  };
+
+  const handleDirectionChange = (event) => {
+    const selectedDirection = event.target.value;
+    setSelectedDirection(selectedDirection);
+    if (selectedOrder === "name") {
+      dispatch(setOrderName(selectedDirection));
+    } else if (selectedOrder === "dob") {
+      dispatch(setOrderDob(selectedDirection));
+    }
   };
 
   return (
@@ -52,6 +68,14 @@ const Home = () => {
           <option className="homeOrderOption" value="dob">
             Order by Date of Birth
           </option>
+        </select>
+        <select
+          value={selectedDirection}
+          onChange={handleDirectionChange}
+          className="homeOrderSelect"
+        >
+          <option value="ASC">Ascending</option>
+          <option value="DESC">Descending</option>
         </select>
       </div>
       <section className="homeCards">

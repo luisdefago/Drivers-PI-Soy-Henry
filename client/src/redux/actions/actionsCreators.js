@@ -4,7 +4,8 @@ import {
   SEARCH_DRIVERS,
   FETCH_DRIVER_BY_ID,
   PAGINATE,
-  ORDER,
+  ORDER_DOB,
+  ORDER_NAME,
 } from "./actionsTypes";
 
 // Función creadora de acción para buscar conductores por id
@@ -107,12 +108,25 @@ export const setPage = (page, driversPerPage = 9) => {
   };
 };
 
-export const setOrder = (order) => {
+export const setOrderName = (direction) => {
   return async function (dispatch) {
     try {
       dispatch({
-        type: ORDER,
-        payload: order,
+        type: ORDER_NAME,
+        payload: direction,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+export const setOrderDob = (direction) => {
+  return async function (dispatch) {
+    try {
+      dispatch({
+        type: ORDER_DOB,
+        payload: direction,
       });
     } catch (error) {
       console.log(error.message);
