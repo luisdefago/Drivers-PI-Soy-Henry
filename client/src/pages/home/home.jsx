@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/card/card";
 import "./home.css";
-import { fetchDrivers, setPage } from "../../redux/actions/actionsCreators";
+import {
+  fetchDrivers,
+  setOrder,
+  setPage,
+} from "../../redux/actions/actionsCreators";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState("name");
   const dispatch = useDispatch();
   const drivers = useSelector((state) => state.drivers);
   const currentPage = useSelector((state) => state.currentPage);
@@ -27,8 +32,28 @@ const Home = () => {
   const startIndex = (currentPage - 1) * driversPerPage;
   const endIndex = startIndex + driversPerPage;
 
+  const handleOrderChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedOrder(selectedValue);
+    dispatch(setOrder({ type: selectedValue, direction: "ASC" }));
+  };
+
   return (
     <main className="home">
+      <div className="homeOrder">
+        <select
+          value={selectedOrder}
+          onChange={handleOrderChange}
+          className="homeOrderSelect"
+        >
+          <option className="homeOrderOption" value="name">
+            Order by Name
+          </option>
+          <option className="homeOrderOption" value="dob">
+            Order by Date of Birth
+          </option>
+        </select>
+      </div>
       <section className="homeCards">
         {loading ? (
           <img
