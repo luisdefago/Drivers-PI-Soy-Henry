@@ -132,7 +132,8 @@ const Home = () => {
             <option value="API">Original Drivers</option>
           </select>
         </div>
-        <div className="homeConteinerSelect">
+        <div className="homeConteinerSelect borderRight">
+          <label className="homeOrderLabel">Team : </label>
           <select
             value={filterstate.teams}
             onChange={(event) => handleFilter(event)}

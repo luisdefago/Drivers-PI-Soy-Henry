@@ -123,3 +123,7 @@ a{
   padding: 0 8px;
   margin: 0 5px;
 }
+
+.borderRight{
+  border-right: solid white 2px;
+}
