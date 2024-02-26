@@ -9,6 +9,7 @@
 }
 
 .detailCarga {
+  margin: 200px 0;
   height: 150px;
   position: relative;
   animation: circleAnimation 1.5s linear infinite;

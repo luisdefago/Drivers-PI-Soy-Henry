@@ -143,41 +143,43 @@ const Home = () => {
             ))
         )}
       </section>
-      <div className="homePagination">
-        <button
-          onClick={() => dispatch(setPage(1))}
-          disabled={currentPage === 1}
-          className="homePaginationButton"
-        >
-          First
-        </button>
-        <button
-          onClick={() => dispatch(setPage(currentPage - 1))}
-          disabled={currentPage === 1}
-          className="homePaginationButton"
-        >
-          Previous
-        </button>
-        <span className="homePaginationsSpan">{currentPage}</span>
-        <button
-          onClick={() => dispatch(setPage(currentPage + 1))}
-          disabled={endIndex >= filteredDrivers.length}
-          className="homePaginationButton"
-        >
-          Next
-        </button>
-        <button
-          onClick={() =>
-            dispatch(
-              setPage(Math.ceil(filteredDrivers.length / driversPerPage))
-            )
-          }
-          disabled={endIndex >= filteredDrivers.length}
-          className="homePaginationButton"
-        >
-          Last
-        </button>
-      </div>
+      {filteredDrivers.length > driversPerPage && (
+        <div className="homePagination">
+          <button
+            onClick={() => dispatch(setPage(1))}
+            disabled={currentPage === 1}
+            className="homePaginationButton"
+          >
+            First
+          </button>
+          <button
+            onClick={() => dispatch(setPage(currentPage - 1))}
+            disabled={currentPage === 1}
+            className="homePaginationButton"
+          >
+            Previous
+          </button>
+          <span className="homePaginationsSpan">{currentPage}</span>
+          <button
+            onClick={() => dispatch(setPage(currentPage + 1))}
+            disabled={endIndex >= filteredDrivers.length}
+            className="homePaginationButton"
+          >
+            Next
+          </button>
+          <button
+            onClick={() =>
+              dispatch(
+                setPage(Math.ceil(filteredDrivers.length / driversPerPage))
+              )
+            }
+            disabled={endIndex >= filteredDrivers.length}
+            className="homePaginationButton"
+          >
+            Last
+          </button>
+        </div>
+      )}
     </main>
   );
 };

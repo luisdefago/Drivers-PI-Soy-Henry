@@ -63,12 +63,19 @@ const reducer = (state = initialState, action) => {
       };
 
     case FETCH_DRIVERS:
-      return {
-        ...state,
-        drivers: action.payload,
-        filteredDrivers: action.payload,
-        loading: false,
-      };
+      if (state.drivers.length === 0) {
+        return {
+          ...state,
+          drivers: action.payload,
+          filteredDrivers: action.payload,
+          loading: false,
+        };
+      } else {
+        return {
+          ...state,
+          loading: false,
+        };
+      }
 
     case FETCH_DRIVER_BY_ID:
       return {
