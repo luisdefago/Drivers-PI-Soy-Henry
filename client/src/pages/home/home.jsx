@@ -19,11 +19,19 @@ const Home = () => {
   const filteredDrivers = useSelector((state) => state.filteredDrivers);
   const currentPage = useSelector((state) => state.currentPage);
   const driversPerPage = useSelector((state) => state.driversPerPage);
-
+  const [teams, setTeams] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState("all");
   const [filterstate, setFilterstate] = useState({
     teams: "all",
     origin: "all",
   });
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:3001/drivers/teams")
+      .then((response) => response.json())
+      .then((data) => setTeams(data))
+      .catch((error) => console.error("Error fetching teams:", error));
+  }, []);
 
   // Para ordenar los conductores cuando cambie la orden o la dirección
   useEffect(() => {
@@ -35,13 +43,15 @@ const Home = () => {
   }, [dispatch, selectedOrder, selectedDirection]);
 
   useEffect(() => {
-    setFilterstate({
-      ...filterstate,
-      origin: "all",
-    });
+    if (teams.length > 0) {
+      setFilterstate({
+        ...filterstate,
+        origin: "all",
+        teams: "all",
+      });
+    }
   }, [drivers]);
 
-  // Para cargar los conductores cuando cambie la orden o la dirección
   useEffect(() => {
     dispatch(fetchDrivers())
       .then(() => setLoading(false))
@@ -64,10 +74,19 @@ const Home = () => {
 
   const handleFilter = (event) => {
     const { name, value } = event.target;
-    setFilterstate({
-      ...filterstate,
-      [name]: value,
-    });
+    console.log("name: ", name, "value: ", value);
+    if (name === "origin") {
+      setFilterstate({
+        ...filterstate,
+        [name]: value,
+      });
+    } else {
+      setSelectedTeam(value);
+      setFilterstate({
+        ...filterstate,
+        teams: value,
+      });
+    }
   };
 
   const handleDirectionChange = (event) => {
@@ -101,7 +120,7 @@ const Home = () => {
           </select>
         </div>
         <div className="homeConteinerSelect">
-          <label className="homeOrderLabel">Por Origen : </label>
+          <label className="homeOrderLabel">Origin : </label>
           <select
             value={filterstate.origin}
             name="origin"
@@ -111,6 +130,20 @@ const Home = () => {
             <option value="all">All</option>
             <option value="DB">My Drivers</option>
             <option value="API">Original Drivers</option>
+          </select>
+        </div>
+        <div className="homeConteinerSelect">
+          <select
+            value={filterstate.teams}
+            onChange={(event) => handleFilter(event)}
+            className="homeOrderSelect"
+          >
+            <option value="all">All</option>
+            {teams.map((team) => (
+              <option key={team} value={team}>
+                {team}
+              </option>
+            ))}
           </select>
         </div>
       </div>

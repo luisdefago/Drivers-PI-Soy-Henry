@@ -122,9 +122,16 @@ const reducer = (state = initialState, action) => {
       const { teams, origin } = action.payload;
 
       if (teams !== "all") {
-        filteredDrivers = state.drivers.filter(
-          (driver) => driver && driver.teams && driver.teams.includes(teams)
-        );
+        filteredDrivers = state.drivers.filter((driver) => {
+          console.log(driver);
+          return (
+            driver &&
+            ((Array.isArray(driver?.Teams) &&
+              driver.Teams.some((team) => team.name === teams)) ||
+              (typeof driver.teams === "string" &&
+                driver.teams.split(", ").includes(teams)))
+          );
+        });
       } else {
         filteredDrivers = state.drivers;
       }
