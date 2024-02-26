@@ -56,12 +56,10 @@ const Home = () => {
 
   const handleFilter = (event) => {
     const { name, value } = event.target;
-    console.log("Name:", name, " value:", value);
     setFilterstate({
       ...filterstate,
       [name]: value,
     });
-    console.log(filterstate);
   };
 
   const handleDirectionChange = (event) => {
@@ -72,28 +70,30 @@ const Home = () => {
   return (
     <main className="home">
       <div className="homeOrder">
-        <select
-          value={selectedOrder}
-          onChange={handleOrderChange}
-          className="homeOrderSelect"
-        >
-          <option className="homeOrderOption" value="name">
-            Order by Name
-          </option>
-          <option className="homeOrderOption" value="dob">
-            Order by Date of Birth
-          </option>
-        </select>
-        <select
-          value={selectedDirection}
-          onChange={handleDirectionChange}
-          className="homeOrderSelect"
-        >
-          <option value="ASC">Ascending</option>
-          <option value="DESC">Descending</option>
-        </select>
-        <div>
-          <label>Por Origen : </label>
+        <div className="homeConteinerSelect">
+          <select
+            value={selectedOrder}
+            onChange={handleOrderChange}
+            className="homeOrderSelect"
+          >
+            <option className="homeOrderOption" value="name">
+              Order by Name
+            </option>
+            <option className="homeOrderOption" value="dob">
+              Order by Date of Birth
+            </option>
+          </select>
+          <select
+            value={selectedDirection}
+            onChange={handleDirectionChange}
+            className="homeOrderSelect"
+          >
+            <option value="ASC">Ascending</option>
+            <option value="DESC">Descending</option>
+          </select>
+        </div>
+        <div className="homeConteinerSelect">
+          <label className="homeOrderLabel">Por Origen : </label>
           <select
             value={filterstate.origin}
             name="origin"
