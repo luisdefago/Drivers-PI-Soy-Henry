@@ -13,7 +13,6 @@ export default function SearchBar() {
 
   const search = () => {
     if (name.trim() !== "") {
-      // Dispatch de la acción searchDrivers con el nombre como argumento
       dispatch(searchDrivers(name));
       setName("");
     }

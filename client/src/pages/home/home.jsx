@@ -15,7 +15,8 @@ const Home = () => {
   const [selectedOrder, setSelectedOrder] = useState("name");
   const [selectedDirection, setSelectedDirection] = useState("ASC");
   const dispatch = useDispatch();
-  const drivers = useSelector((state) => state.filteredDrivers);
+  const drivers = useSelector((state) => state.drivers);
+  const filteredDrivers = useSelector((state) => state.filteredDrivers);
   const currentPage = useSelector((state) => state.currentPage);
   const driversPerPage = useSelector((state) => state.driversPerPage);
 
@@ -32,6 +33,13 @@ const Home = () => {
       dispatch(setOrderDob(selectedDirection));
     }
   }, [dispatch, selectedOrder, selectedDirection]);
+
+  useEffect(() => {
+    setFilterstate({
+      ...filterstate,
+      origin: "all",
+    });
+  }, [drivers]);
 
   // Para cargar los conductores cuando cambie la orden o la dirección
   useEffect(() => {
@@ -114,7 +122,7 @@ const Home = () => {
             alt="Loading..."
           />
         ) : (
-          drivers
+          filteredDrivers
             .slice(startIndex, endIndex)
             .map((driver) => (
               <Card
@@ -153,16 +161,18 @@ const Home = () => {
         <span className="homePaginationsSpan">{currentPage}</span>
         <button
           onClick={() => dispatch(setPage(currentPage + 1))}
-          disabled={endIndex >= drivers.length}
+          disabled={endIndex >= filteredDrivers.length}
           className="homePaginationButton"
         >
           Next
         </button>
         <button
           onClick={() =>
-            dispatch(setPage(Math.ceil(drivers.length / driversPerPage)))
+            dispatch(
+              setPage(Math.ceil(filteredDrivers.length / driversPerPage))
+            )
           }
-          disabled={endIndex >= drivers.length}
+          disabled={endIndex >= filteredDrivers.length}
           className="homePaginationButton"
         >
           Last

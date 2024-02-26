@@ -22,17 +22,25 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
+  let filteredDriversSearch;
+  let orderedFilteredDriversSearch;
+  let newDrivers;
+  let mergedDrivers;
+  let sortedDriversByName;
+  let sortedDriversByDob;
+  let filteredDrivers;
+
   switch (action.type) {
     case SEARCH_DRIVERS:
-      const filteredDriversSearch = action.payload.filter((driver) =>
+      filteredDriversSearch = action.payload.filter((driver) =>
         state.drivers.every((existingDriver) => existingDriver.id !== driver.id)
       );
-      const orderedFilteredDriversSearch = sortDrivers(
+      orderedFilteredDriversSearch = sortDrivers(
         filteredDriversSearch,
         state.selectedOrder,
         state.selectedDirection
       );
-      const newDrivers = [
+      newDrivers = [
         ...orderedFilteredDriversSearch.filter(
           (driver) =>
             !state.drivers.some(
@@ -41,7 +49,7 @@ const reducer = (state = initialState, action) => {
         ),
         ...state.drivers,
       ];
-      const mergedDrivers = mergeDriversWithFilter(
+      mergedDrivers = mergeDriversWithFilter(
         state.filteredDrivers,
         newDrivers,
         state.selectedOrder,
@@ -78,7 +86,7 @@ const reducer = (state = initialState, action) => {
       };
 
     case ORDER_NAME:
-      const sortedDriversByName = sortDrivers(
+      sortedDriversByName = sortDrivers(
         state.filteredDrivers,
         "name",
         action.payload
@@ -91,7 +99,7 @@ const reducer = (state = initialState, action) => {
       };
 
     case ORDER_DOB:
-      const sortedDriversByDob = sortDrivers(
+      sortedDriversByDob = sortDrivers(
         state.filteredDrivers,
         "dob",
         action.payload
@@ -105,7 +113,6 @@ const reducer = (state = initialState, action) => {
 
     case FILTER:
       const { teams, origin } = action.payload;
-      let filteredDrivers;
 
       if (teams !== "all") {
         filteredDrivers = state.drivers.filter(
