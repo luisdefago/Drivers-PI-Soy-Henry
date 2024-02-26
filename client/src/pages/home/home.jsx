@@ -4,6 +4,7 @@ import Card from "../../components/card/card";
 import "./home.css";
 import {
   fetchDrivers,
+  setFilter,
   setOrderDob,
   setOrderName,
   setPage,
@@ -14,28 +15,36 @@ const Home = () => {
   const [selectedOrder, setSelectedOrder] = useState("name");
   const [selectedDirection, setSelectedDirection] = useState("ASC");
   const dispatch = useDispatch();
-  const drivers = useSelector((state) => state.drivers);
+  const drivers = useSelector((state) => state.filteredDrivers);
   const currentPage = useSelector((state) => state.currentPage);
   const driversPerPage = useSelector((state) => state.driversPerPage);
 
+  const [filterstate, setFilterstate] = useState({
+    teams: "all",
+    origin: "all",
+  });
+
+  // Para ordenar los conductores cuando cambie la orden o la dirección
   useEffect(() => {
-    // Llamada a la acción correspondiente para establecer el ordenamiento al cargar la página
     if (selectedOrder === "name") {
       dispatch(setOrderName(selectedDirection));
     } else if (selectedOrder === "dob") {
       dispatch(setOrderDob(selectedDirection));
     }
+  }, [dispatch, selectedOrder, selectedDirection]);
 
-    if (drivers.length === 0) {
-      dispatch(fetchDrivers())
-        .then(() => setLoading(false))
-        .catch((error) =>
-          console.error("Error al cargar los conductores:", error)
-        );
-    } else {
-      setLoading(false);
-    }
-  }, [dispatch, drivers.length, selectedOrder, selectedDirection]);
+  // Para cargar los conductores cuando cambie la orden o la dirección
+  useEffect(() => {
+    dispatch(fetchDrivers())
+      .then(() => setLoading(false))
+      .catch((error) =>
+        console.error("Error al cargar los conductores:", error)
+      );
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setFilter(filterstate));
+  }, [dispatch, filterstate]);
 
   const startIndex = (currentPage - 1) * driversPerPage;
   const endIndex = startIndex + driversPerPage;
@@ -43,6 +52,16 @@ const Home = () => {
   const handleOrderChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedOrder(selectedValue);
+  };
+
+  const handleFilter = (event) => {
+    const { name, value } = event.target;
+    console.log("Name:", name, " value:", value);
+    setFilterstate({
+      ...filterstate,
+      [name]: value,
+    });
+    console.log(filterstate);
   };
 
   const handleDirectionChange = (event) => {
@@ -73,6 +92,19 @@ const Home = () => {
           <option value="ASC">Ascending</option>
           <option value="DESC">Descending</option>
         </select>
+        <div>
+          <label>Por Origen : </label>
+          <select
+            value={filterstate.origin}
+            name="origin"
+            onChange={handleFilter}
+            className="homeOrderSelect"
+          >
+            <option value="all">All</option>
+            <option value="DB">My Drivers</option>
+            <option value="API">Original Drivers</option>
+          </select>
+        </div>
       </div>
       <section className="homeCards">
         {loading ? (

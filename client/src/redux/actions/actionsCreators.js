@@ -6,9 +6,26 @@ import {
   PAGINATE,
   ORDER_DOB,
   ORDER_NAME,
+  FILTER,
 } from "./actionsTypes";
 
-// Función creadora de acción para buscar conductores por id
+export const mergeDriversWithFilter = (
+  filteredDrivers,
+  newDrivers,
+  selectedOrder,
+  selectedDirection
+) => {
+  const mergedDrivers = [...filteredDrivers];
+  newDrivers.forEach((driver) => {
+    if (
+      !filteredDrivers.some((existingDriver) => existingDriver.id === driver.id)
+    ) {
+      mergedDrivers.push(driver);
+    }
+  });
+  return sortDrivers(mergedDrivers, selectedOrder, selectedDirection);
+};
+
 export const fetchDriverById = (id) => {
   return async (dispatch) => {
     try {
@@ -17,17 +34,15 @@ export const fetchDriverById = (id) => {
       );
       const data = response.data;
 
-      // Si data es un array y tiene al menos un elemento
       if (Array.isArray(data) && data.length > 0) {
         dispatch({
           type: FETCH_DRIVER_BY_ID,
           payload: data[0][0],
         });
-      } else if (!Array.isArray(data) && typeof data === "object") {
-        // Si data es un objeto
+      } else if (typeof data === "object") {
         dispatch({
           type: FETCH_DRIVER_BY_ID,
-          payload: data, // Tomar el objeto directamente
+          payload: data,
         });
       } else {
         console.error("Error: Respuesta de servidor inesperada");
@@ -38,7 +53,6 @@ export const fetchDriverById = (id) => {
   };
 };
 
-// Función creadora de acción para buscar conductores por nombre
 export const searchDrivers = (name) => {
   return async (dispatch, getState) => {
     try {
@@ -46,27 +60,28 @@ export const searchDrivers = (name) => {
         `http://127.0.0.1:3001/drivers/driverByName/name?name=${name}`
       );
       const { data } = response;
-      const currentState = getState(); // Obtener el estado actual
+      const currentState = getState();
 
-      if (!data.length) {
+      if (!Array.isArray(data) || data.length === 0) {
         console.log("No se encontraron conductores con este nombre.");
-      } else {
-        // Filtrar los conductores para evitar duplicados
-        const filteredDrivers = data.filter((driver) => {
-          return !currentState.drivers.some(
-            (existingDriver) => existingDriver.id === driver.id
-          );
-        });
-
-        if (filteredDrivers.length === 0) {
-          console.log("Todos los conductores ya están en la lista.");
-        } else {
-          dispatch({
-            type: SEARCH_DRIVERS,
-            payload: filteredDrivers,
-          });
-        }
+        return;
       }
+
+      const filteredDrivers = data.filter((driver) => {
+        return !currentState.drivers.some(
+          (existingDriver) => existingDriver.id === driver.id
+        );
+      });
+
+      if (filteredDrivers.length === 0) {
+        console.log("Todos los conductores ya están en la lista.");
+        return;
+      }
+
+      dispatch({
+        type: SEARCH_DRIVERS,
+        payload: filteredDrivers,
+      });
     } catch (error) {
       console.error("Error al buscar conductores:", error);
       alert(
@@ -76,7 +91,6 @@ export const searchDrivers = (name) => {
   };
 };
 
-// Función creadora de acción para cargar conductores
 export const fetchDrivers = () => {
   return async (dispatch) => {
     try {
@@ -96,41 +110,30 @@ export const fetchDrivers = () => {
 };
 
 export const setPage = (page, driversPerPage = 9) => {
-  return async function (dispatch) {
-    try {
-      dispatch({
-        type: PAGINATE,
-        payload: { page, driversPerPage },
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
+  return {
+    type: PAGINATE,
+    payload: { page, driversPerPage },
   };
 };
 
 export const setOrderName = (direction) => {
-  return async function (dispatch) {
-    try {
-      dispatch({
-        type: ORDER_NAME,
-        payload: direction,
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
+  return {
+    type: ORDER_NAME,
+    payload: direction,
   };
 };
 
 export const setOrderDob = (direction) => {
-  return async function (dispatch) {
-    try {
-      dispatch({
-        type: ORDER_DOB,
-        payload: direction,
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
+  return {
+    type: ORDER_DOB,
+    payload: direction,
+  };
+};
+
+export const setFilter = (filters) => {
+  return {
+    type: FILTER,
+    payload: filters,
   };
 };
 
