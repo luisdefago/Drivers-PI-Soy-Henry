@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./createDriver.css";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { createDriverRequest } from "../../redux/actions/actionsCreators";
+import {
+  validateDateFormat,
+  validateEmptyFields,
+  validateImageFormat,
+  validateNameFormat,
+  validateTeams,
+} from "./validations";
 
 const CreateDriverForm = () => {
   const [forename, setForename] = useState("");
@@ -12,9 +19,17 @@ const CreateDriverForm = () => {
   const [dob, setDob] = useState("");
   const [description, setDescription] = useState("");
   const [teams, setTeams] = useState("");
+  const [teamsApi, setTeamsApi] = useState("");
 
   const dispatch = useDispatch();
   const error = useSelector((state) => state.error);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:3001/drivers/teams")
+      .then((response) => response.json())
+      .then((data) => setTeamsApi(data))
+      .catch((error) => console.error("Error fetching teams:", error));
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,22 +45,55 @@ const CreateDriverForm = () => {
           teams,
         })
       );
+      alert("Driver created successfully");
+      setForename("");
+      setSurname("");
+      setNationality("");
+      setImage("");
+      setDob("");
+      setDescription("");
+      setTeams("");
     }
   };
 
   const validateForm = () => {
     if (
-      !forename ||
-      !surname ||
-      !nationality ||
-      !image ||
-      !dob ||
-      !description ||
-      !teams
+      validateEmptyFields(
+        forename,
+        surname,
+        nationality,
+        image,
+        dob,
+        description,
+        teams
+      )
     ) {
-      alert("Por favor, complete todos los campos.");
+      alert("Please fill in all fields.");
       return false;
     }
+
+    if (!validateDateFormat(dob)) {
+      alert("Date of birth must be in the format dd/mm/yyyy.");
+      return false;
+    }
+
+    if (!validateNameFormat(forename, surname)) {
+      alert(
+        "First name and last name should not contain numbers or special characters."
+      );
+      return false;
+    }
+
+    if (!validateImageFormat(image)) {
+      alert("Image URL should have JPG or JPEG format.");
+      return false;
+    }
+
+    if (!validateTeams(teams, teamsApi)) {
+      alert("Please enter valid teams.");
+      return false;
+    }
+
     return true;
   };
 
