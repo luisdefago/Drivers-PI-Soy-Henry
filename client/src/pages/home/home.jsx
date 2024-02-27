@@ -20,7 +20,6 @@ const Home = () => {
   const currentPage = useSelector((state) => state.currentPage);
   const driversPerPage = useSelector((state) => state.driversPerPage);
   const [teams, setTeams] = useState([]);
-  const [selectedTeam, setSelectedTeam] = useState("all");
   const [filterstate, setFilterstate] = useState({
     teams: "all",
     origin: "all",
@@ -81,7 +80,6 @@ const Home = () => {
         [name]: value,
       });
     } else {
-      setSelectedTeam(value);
       setFilterstate({
         ...filterstate,
         teams: value,

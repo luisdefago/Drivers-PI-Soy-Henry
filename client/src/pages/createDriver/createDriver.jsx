@@ -1,6 +1,8 @@
 import { useState } from "react";
-import axios from "axios";
 import "./createDriver.css";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { createDriverRequest } from "../../redux/actions/actionsCreators";
 
 const CreateDriverForm = () => {
   const [forename, setForename] = useState("");
@@ -10,39 +12,24 @@ const CreateDriverForm = () => {
   const [dob, setDob] = useState("");
   const [description, setDescription] = useState("");
   const [teams, setTeams] = useState("");
-  const [error, setError] = useState("");
 
-  const handleSubmit = async (event) => {
+  const dispatch = useDispatch();
+  const error = useSelector((state) => state.error);
+
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (validateForm()) {
-      try {
-        const response = await axios.post(
-          "http://127.0.0.1:3001/drivers/addDriver",
-          {
-            forename,
-            surname,
-            nationality,
-            image,
-            dob,
-            description,
-            teams,
-          }
-        );
-        alert("Nuevo driver creado con éxito.");
-        // Reiniciar el estado del formulario después de enviar los datos con éxito
-        setForename("");
-        setSurname("");
-        setNationality("");
-        setImage("");
-        setDob("");
-        setDescription("");
-        setTeams("");
-      } catch (error) {
-        console.error("Error:", error);
-        setError(
-          "Hubo un problema al crear el driver. Por favor, inténtalo de nuevo más tarde."
-        );
-      }
+      dispatch(
+        createDriverRequest({
+          forename,
+          surname,
+          nationality,
+          image,
+          dob,
+          description,
+          teams,
+        })
+      );
     }
   };
 
@@ -56,10 +43,9 @@ const CreateDriverForm = () => {
       !description ||
       !teams
     ) {
-      setError("Por favor, complete todos los campos.");
+      alert("Por favor, complete todos los campos.");
       return false;
     }
-    setError("");
     return true;
   };
 

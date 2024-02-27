@@ -7,6 +7,9 @@ import {
   ORDER_DOB,
   ORDER_NAME,
   FILTER,
+  CREATE_DRIVER_REQUEST,
+  CREATE_DRIVER_SUCCESS,
+  CREATE_DRIVER_FAILURE,
 } from "./actionsTypes";
 
 export const mergeDriversWithFilter = (
@@ -158,4 +161,17 @@ export const sortDrivers = (drivers, selectedOrder, selectedDirection) => {
     });
   }
   return sortedDrivers;
+};
+
+export const createDriverRequest = (driverData) => {
+  return async (dispatch) => {
+    dispatch({ type: CREATE_DRIVER_REQUEST });
+    try {
+      console.log(driverData);
+      await axios.post("http://127.0.0.1:3001/drivers/addDriver", driverData);
+      dispatch({ type: CREATE_DRIVER_SUCCESS });
+    } catch (error) {
+      dispatch({ type: CREATE_DRIVER_FAILURE, payload: error.message });
+    }
+  };
 };

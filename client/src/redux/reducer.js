@@ -1,5 +1,8 @@
 import { mergeDriversWithFilter, sortDrivers } from "./actions/actionsCreators";
 import {
+  CREATE_DRIVER_FAILURE,
+  CREATE_DRIVER_REQUEST,
+  CREATE_DRIVER_SUCCESS,
   FETCH_DRIVERS,
   FETCH_DRIVER_BY_ID,
   FILTER,
@@ -157,6 +160,24 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         filteredDrivers: filteredDrivers,
+      };
+
+    case CREATE_DRIVER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CREATE_DRIVER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    case CREATE_DRIVER_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
 
     default:
