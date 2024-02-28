@@ -111,7 +111,6 @@ const CreateDriverForm = () => {
               id="forename"
               value={forename}
               onChange={(e) => setForename(e.target.value)}
-              required
               className="formInput"
             />
             <label htmlFor="surname" className="formLabel">
@@ -122,7 +121,6 @@ const CreateDriverForm = () => {
               id="surname"
               value={surname}
               onChange={(e) => setSurname(e.target.value)}
-              required
               className="formInput"
             />
             <label htmlFor="teams" className="formLabel">
@@ -133,7 +131,6 @@ const CreateDriverForm = () => {
               id="teams"
               value={teams}
               onChange={(e) => setTeams(e.target.value)}
-              required
               className="formInput"
             />
             <label htmlFor="nationality" className="formLabel">
@@ -144,7 +141,6 @@ const CreateDriverForm = () => {
               id="nationality"
               value={nationality}
               onChange={(e) => setNationality(e.target.value)}
-              required
               className="formInput"
             />
             <label htmlFor="dob" className="formLabel">
@@ -155,7 +151,6 @@ const CreateDriverForm = () => {
               id="dob"
               value={dob}
               onChange={(e) => setDob(e.target.value)}
-              required
               className="formInput"
             />
             <label htmlFor="image" className="formLabel">
@@ -166,7 +161,6 @@ const CreateDriverForm = () => {
               id="image"
               value={image}
               onChange={(e) => setImage(e.target.value)}
-              required
               className="formInput"
             />
           </div>
@@ -178,7 +172,6 @@ const CreateDriverForm = () => {
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              required
               className="formTextarea"
               maxLength={1400}
             />

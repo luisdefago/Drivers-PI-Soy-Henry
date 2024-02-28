@@ -105,7 +105,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         selectedOrder: "name",
         selectedDirection: action.payload,
-        filteredDrivers: sortedDriversByName, // Actualiza los conductores filtrados
+        filteredDrivers: sortedDriversByName,
       };
 
     case ORDER_DOB:
@@ -118,7 +118,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         selectedOrder: "dob",
         selectedDirection: action.payload,
-        filteredDrivers: sortedDriversByDob, // Actualiza los conductores filtrados
+        filteredDrivers: sortedDriversByDob,
       };
 
     case FILTER:

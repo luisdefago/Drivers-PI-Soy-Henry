@@ -3,12 +3,12 @@ const { Sequelize } = require("sequelize");
 const { Driver, Team } = require("../db");
 
 const getDriversByNameFromDatabase = async (name) => {
-  // Lógica para buscar conductores en la base de datos por nombre
   const drivers = await Driver.findAll({
     where: {
       [Sequelize.Op.or]: [
         { forename: { [Sequelize.Op.iLike]: `%${name}%` } },
         { surname: { [Sequelize.Op.iLike]: `%${name}%` } },
+        Sequelize.literal(`forename || ' ' || surname ILIKE '%${name}%'`),
       ],
     },
     include: [{ model: Team, through: "DriverTeam" }],
@@ -28,12 +28,9 @@ const getDriversByNameFromServer = async (name) => {
     // Filtrar los conductores por nombre o apellido
     const nameLowercase = name.toLowerCase();
     const drivers = driversApi.filter((driver) => {
-      const forenameLowercase = driver.name.forename.toLowerCase();
-      const surnameLowercase = driver.name.surname.toLowerCase();
-      return (
-        forenameLowercase.includes(nameLowercase) ||
-        surnameLowercase.includes(nameLowercase)
-      );
+      const fullName =
+        `${driver.name.forename} ${driver.name.surname}`.toLowerCase();
+      return fullName.includes(nameLowercase);
     });
     // Devolver los conductores encontrados
     return drivers;

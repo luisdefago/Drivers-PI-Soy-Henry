@@ -94,6 +94,24 @@ export const searchDrivers = (name) => {
   };
 };
 
+export const searchDriverByName = (name) => {
+  return async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:3001/drivers/driverByName/name?name=${name}`
+      );
+      const { data } = response;
+
+      return data;
+    } catch (error) {
+      console.error("Error al buscar conductor por nombre:", error);
+      alert(
+        "Hubo un error al buscar conductor por nombre. Por favor, inténtalo de nuevo más tarde."
+      );
+    }
+  };
+};
+
 export const fetchDrivers = () => {
   return async (dispatch) => {
     try {
