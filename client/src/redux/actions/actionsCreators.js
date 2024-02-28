@@ -87,6 +87,9 @@ export const searchDrivers = (name) => {
       });
     } catch (error) {
       console.error("Error al buscar conductores:", error);
+      alert(
+        "Ha ocurrido un error al buscar conductores. Por favor, intenta de nuevo más tarde."
+      );
     }
   };
 };
