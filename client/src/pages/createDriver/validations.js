@@ -1,3 +1,5 @@
+import { searchDriverByName } from "../../redux/actions/actionsCreators";
+
 const validateEmptyFields = (
   forename,
   surname,
@@ -63,10 +65,23 @@ const validateTeams = (teams, allTeams) => {
   return teamsArray.every((team) => lowerCaseAllTeams.includes(team));
 };
 
+const isDriverExists = async (forename, surname) => {
+  try {
+    const driverDataExists = await searchDriverByName(
+      `${forename} ${surname}`
+    )();
+    console.log(driverDataExists);
+    return !!driverDataExists;
+  } catch (error) {
+    return false;
+  }
+};
+
 export {
   validateEmptyFields,
   validateDateFormat,
   validateNameFormat,
   validateImageFormat,
   validateTeams,
+  isDriverExists,
 };

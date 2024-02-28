@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { createDriverRequest } from "../../redux/actions/actionsCreators";
 import {
+  isDriverExists,
   validateDateFormat,
   validateEmptyFields,
   validateImageFormat,
@@ -31,9 +32,16 @@ const CreateDriverForm = () => {
       .catch((error) => console.error("Error fetching teams:", error));
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
+      const driverExists = await isDriverExists(forename, surname);
+      if (driverExists) {
+        console.log(driverExists);
+        alert("Driver already exists");
+        return;
+      }
+
       dispatch(
         createDriverRequest({
           forename,
@@ -45,6 +53,7 @@ const CreateDriverForm = () => {
           teams,
         })
       );
+
       alert("Driver created successfully");
       setForename("");
       setSurname("");
