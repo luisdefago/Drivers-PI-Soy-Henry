@@ -65,6 +65,9 @@ const Home = () => {
     const totalPagesAfterFilter = Math.ceil(
       filteredDrivers.length / driversPerPage
     );
+    if (totalPagesAfterFilter === 0) {
+      return;
+    }
     if (pageBeforeFilter > totalPagesAfterFilter) {
       dispatch(setPage(totalPagesAfterFilter));
     }
