@@ -141,6 +141,7 @@ const CreateDriverForm = () => {
               id="forename"
               value={forename}
               onChange={(e) => setForename(e.target.value)}
+              placeholder="Enter forename (no numbers or special characters)"
               className="formInput"
             />
             {forenameError && <div className="errorForm">{forenameError}</div>}
@@ -152,6 +153,7 @@ const CreateDriverForm = () => {
               id="surname"
               value={surname}
               onChange={(e) => setSurname(e.target.value)}
+              placeholder="Enter surname (no numbers or special characters)"
               className="formInput"
             />
             {surnameError && <div className="errorForm">{surnameError}</div>}
@@ -163,6 +165,7 @@ const CreateDriverForm = () => {
               id="teams"
               value={teams}
               onChange={(e) => setTeams(e.target.value)}
+              placeholder="Enter teams (Ferrari, Mercedes)"
               className="formInput"
             />
             {teamsError && <div className="errorForm">{teamsError}</div>}
@@ -174,6 +177,7 @@ const CreateDriverForm = () => {
               id="nationality"
               value={nationality}
               onChange={(e) => setNationality(e.target.value)}
+              placeholder="Enter nationality"
               className="formInput"
             />
             {nationalityError && (
@@ -187,6 +191,7 @@ const CreateDriverForm = () => {
               id="dob"
               value={dob}
               onChange={(e) => setDob(e.target.value)}
+              placeholder="Enter date of birth (dd/mm/yyyy)"
               className="formInput"
             />
             {dobError && <div className="errorForm">{dobError}</div>}
@@ -198,6 +203,7 @@ const CreateDriverForm = () => {
               id="image"
               value={image}
               onChange={(e) => setImage(e.target.value)}
+              placeholder="Enter image URL (.JPG or .JPEG)"
               className="formInput"
             />
             {imageError && <div className="errorForm">{imageError}</div>}
@@ -212,6 +218,7 @@ const CreateDriverForm = () => {
               onChange={(e) => setDescription(e.target.value)}
               className="formTextarea"
               maxLength={1400}
+              placeholder="Enter description"
             />
           </div>
         </div>

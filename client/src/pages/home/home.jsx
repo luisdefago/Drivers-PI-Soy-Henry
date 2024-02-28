@@ -5,25 +5,21 @@ import "./home.css";
 import {
   fetchDrivers,
   setFilter,
-  setOrderDob,
-  setOrderName,
   setPage,
 } from "../../redux/actions/actionsCreators";
+import Filter from "../../components/filter/filter";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
-  const [selectedOrder, setSelectedOrder] = useState("name");
-  const [selectedDirection, setSelectedDirection] = useState("ASC");
-  const dispatch = useDispatch();
-  const drivers = useSelector((state) => state.drivers);
-  const filteredDrivers = useSelector((state) => state.filteredDrivers);
-  const currentPage = useSelector((state) => state.currentPage);
-  const driversPerPage = useSelector((state) => state.driversPerPage);
-  const [teams, setTeams] = useState([]);
   const [filterstate, setFilterstate] = useState({
     teams: "all",
     origin: "all",
   });
+  const dispatch = useDispatch();
+  const filteredDrivers = useSelector((state) => state.filteredDrivers);
+  const currentPage = useSelector((state) => state.currentPage);
+  const driversPerPage = useSelector((state) => state.driversPerPage);
+  const [teams, setTeams] = useState([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:3001/drivers/teams")
@@ -31,33 +27,6 @@ const Home = () => {
       .then((data) => setTeams(data))
       .catch((error) => console.error("Error fetching teams:", error));
   }, []);
-
-  // Para ordenar los conductores cuando cambie la orden o la dirección
-  useEffect(() => {
-    if (selectedOrder === "name") {
-      dispatch(setOrderName(selectedDirection));
-    } else if (selectedOrder === "dob") {
-      dispatch(setOrderDob(selectedDirection));
-    }
-  }, [dispatch, selectedOrder, selectedDirection]);
-
-  useEffect(() => {
-    if (teams.length > 0) {
-      setFilterstate({
-        ...filterstate,
-        origin: "all",
-        teams: "all",
-      });
-    }
-  }, [drivers]);
-
-  useEffect(() => {
-    dispatch(fetchDrivers())
-      .then(() => setLoading(false))
-      .catch((error) =>
-        console.error("Error al cargar los conductores:", error)
-      );
-  }, [dispatch]);
 
   useEffect(() => {
     const pageBeforeFilter = currentPage;
@@ -79,89 +48,21 @@ const Home = () => {
     currentPage,
   ]);
 
-  const startIndex = (currentPage - 1) * driversPerPage;
-  const endIndex = startIndex + driversPerPage;
+  useEffect(() => {
+    dispatch(fetchDrivers())
+      .then(() => setLoading(false))
+      .catch((error) =>
+        console.error("Error al cargar los conductores:", error)
+      );
+  }, [dispatch]);
 
-  const handleOrderChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedOrder(selectedValue);
-  };
-
-  const handleFilter = (event) => {
-    const { name, value } = event.target;
-    console.log("name: ", name, "value: ", value);
-    if (name === "origin") {
-      setFilterstate({
-        ...filterstate,
-        [name]: value,
-      });
-    } else {
-      setFilterstate({
-        ...filterstate,
-        teams: value,
-      });
-    }
-  };
-
-  const handleDirectionChange = (event) => {
-    const selectedDirection = event.target.value;
-    setSelectedDirection(selectedDirection);
+  const handleFilter = (filterData) => {
+    setFilterstate(filterData); // Actualiza el estado filterstate cuando cambia el filtro
   };
 
   return (
     <main className="home">
-      <div className="homeOrder">
-        <div className="homeConteinerSelect">
-          <select
-            value={selectedOrder}
-            onChange={handleOrderChange}
-            className="homeOrderSelect"
-          >
-            <option className="homeOrderOption" value="name">
-              Order by Name
-            </option>
-            <option className="homeOrderOption" value="dob">
-              Order by Date of Birth
-            </option>
-          </select>
-          <select
-            value={selectedDirection}
-            onChange={handleDirectionChange}
-            className="homeOrderSelect"
-          >
-            <option value="ASC">Ascending</option>
-            <option value="DESC">Descending</option>
-          </select>
-        </div>
-        <div className="homeConteinerSelect">
-          <label className="homeOrderLabel">Origin : </label>
-          <select
-            value={filterstate.origin}
-            name="origin"
-            onChange={handleFilter}
-            className="homeOrderSelect"
-          >
-            <option value="all">All</option>
-            <option value="DB">My Drivers</option>
-            <option value="API">Original Drivers</option>
-          </select>
-        </div>
-        <div className="homeConteinerSelect borderRight">
-          <label className="homeOrderLabel">Team : </label>
-          <select
-            value={filterstate.teams}
-            onChange={(event) => handleFilter(event)}
-            className="homeOrderSelect"
-          >
-            <option value="all">All</option>
-            {teams.map((team) => (
-              <option key={team} value={team}>
-                {team}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+      <Filter teams={teams} handleFilter={handleFilter} />
       <section className="homeCards">
         {loading ? (
           <img
@@ -171,7 +72,10 @@ const Home = () => {
           />
         ) : (
           filteredDrivers
-            .slice(startIndex, endIndex)
+            .slice(
+              (currentPage - 1) * driversPerPage,
+              currentPage * driversPerPage
+            )
             .map((driver) => (
               <Card
                 key={driver.id}
@@ -210,7 +114,7 @@ const Home = () => {
           <span className="homePaginationsSpan">{currentPage}</span>
           <button
             onClick={() => dispatch(setPage(currentPage + 1))}
-            disabled={endIndex >= filteredDrivers.length}
+            disabled={currentPage * driversPerPage >= filteredDrivers.length}
             className="homePaginationButton"
           >
             Next
@@ -221,7 +125,7 @@ const Home = () => {
                 setPage(Math.ceil(filteredDrivers.length / driversPerPage))
               )
             }
-            disabled={endIndex >= filteredDrivers.length}
+            disabled={currentPage * driversPerPage >= filteredDrivers.length}
             className="homePaginationButton"
           >
             Last

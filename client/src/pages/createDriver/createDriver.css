@@ -100,7 +100,8 @@
 
 .errorForm {
   color: red;
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: 600;
   margin: 10px auto 0 0;
 }
 
