@@ -60,8 +60,21 @@ const Home = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    const pageBeforeFilter = currentPage;
     dispatch(setFilter(filterstate));
-  }, [dispatch, filterstate]);
+    const totalPagesAfterFilter = Math.ceil(
+      filteredDrivers.length / driversPerPage
+    );
+    if (pageBeforeFilter > totalPagesAfterFilter) {
+      dispatch(setPage(totalPagesAfterFilter));
+    }
+  }, [
+    dispatch,
+    filterstate,
+    driversPerPage,
+    filteredDrivers.length,
+    currentPage,
+  ]);
 
   const startIndex = (currentPage - 1) * driversPerPage;
   const endIndex = startIndex + driversPerPage;
@@ -175,7 +188,7 @@ const Home = () => {
             ))
         )}
       </section>
-      {filteredDrivers.length > driversPerPage && (
+      {parseInt(filteredDrivers.length) !== 0 && (
         <div className="homePagination">
           <button
             onClick={() => dispatch(setPage(1))}
