@@ -21,6 +21,13 @@ const CreateDriverForm = () => {
   const [description, setDescription] = useState("");
   const [teams, setTeams] = useState("");
   const [teamsApi, setTeamsApi] = useState("");
+  const [forenameError, setForenameError] = useState("");
+  const [surnameError, setSurnameError] = useState("");
+  const [nationalityError, setNationalityError] = useState("");
+  const [imageError, setImageError] = useState("");
+  const [dobError, setDobError] = useState("");
+  const [teamsError, setTeamsError] = useState("");
+  const [emptyFieldsError, setEmptyFieldsError] = useState("");
 
   const dispatch = useDispatch();
   const error = useSelector((state) => state.error);
@@ -34,11 +41,12 @@ const CreateDriverForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    resetErrors();
+
     if (validateForm()) {
       const driverExists = await isDriverExists(forename, surname);
       if (driverExists) {
-        console.log(driverExists);
-        alert("Driver already exists");
+        setForenameError("Driver already exists");
         return;
       }
 
@@ -54,15 +62,28 @@ const CreateDriverForm = () => {
         })
       );
 
+      resetForm();
       alert("Driver created successfully");
-      setForename("");
-      setSurname("");
-      setNationality("");
-      setImage("");
-      setDob("");
-      setDescription("");
-      setTeams("");
     }
+  };
+
+  const resetErrors = () => {
+    setForenameError("");
+    setSurnameError("");
+    setNationalityError("");
+    setImageError("");
+    setDobError("");
+    setTeamsError("");
+  };
+
+  const resetForm = () => {
+    setForename("");
+    setSurname("");
+    setNationality("");
+    setImage("");
+    setDob("");
+    setDescription("");
+    setTeams("");
   };
 
   const validateForm = () => {
@@ -77,29 +98,29 @@ const CreateDriverForm = () => {
         teams
       )
     ) {
-      alert("Please fill in all fields.");
+      setEmptyFieldsError("Please fill in all fields.");
       return false;
     }
 
     if (!validateDateFormat(dob)) {
-      alert("Date of birth must be in the format dd/mm/yyyy.");
+      setDobError("Date of birth must be in the format dd/mm/yyyy.");
       return false;
     }
 
     if (!validateNameFormat(forename, surname)) {
-      alert(
+      setForenameError(
         "First name and last name should not contain numbers or special characters."
       );
       return false;
     }
 
     if (!validateImageFormat(image)) {
-      alert("Image URL should have JPG or JPEG format.");
+      setImageError("Image URL should have JPG or JPEG format.");
       return false;
     }
 
     if (!validateTeams(teams, teamsApi)) {
-      alert("Please enter valid teams.");
+      setTeamsError("Please enter valid teams.");
       return false;
     }
 
@@ -122,6 +143,7 @@ const CreateDriverForm = () => {
               onChange={(e) => setForename(e.target.value)}
               className="formInput"
             />
+            {forenameError && <div className="errorForm">{forenameError}</div>}
             <label htmlFor="surname" className="formLabel">
               Surname:
             </label>
@@ -132,6 +154,7 @@ const CreateDriverForm = () => {
               onChange={(e) => setSurname(e.target.value)}
               className="formInput"
             />
+            {surnameError && <div className="errorForm">{surnameError}</div>}
             <label htmlFor="teams" className="formLabel">
               Teams:
             </label>
@@ -142,6 +165,7 @@ const CreateDriverForm = () => {
               onChange={(e) => setTeams(e.target.value)}
               className="formInput"
             />
+            {teamsError && <div className="errorForm">{teamsError}</div>}
             <label htmlFor="nationality" className="formLabel">
               Nationality:
             </label>
@@ -152,6 +176,9 @@ const CreateDriverForm = () => {
               onChange={(e) => setNationality(e.target.value)}
               className="formInput"
             />
+            {nationalityError && (
+              <div className="errorForm">{nationalityError}</div>
+            )}
             <label htmlFor="dob" className="formLabel">
               Dob:
             </label>
@@ -162,6 +189,7 @@ const CreateDriverForm = () => {
               onChange={(e) => setDob(e.target.value)}
               className="formInput"
             />
+            {dobError && <div className="errorForm">{dobError}</div>}
             <label htmlFor="image" className="formLabel">
               URL from image:
             </label>
@@ -172,6 +200,7 @@ const CreateDriverForm = () => {
               onChange={(e) => setImage(e.target.value)}
               className="formInput"
             />
+            {imageError && <div className="errorForm">{imageError}</div>}
           </div>
           <div className="formContTextarea">
             <label htmlFor="description" className="formLabel">
@@ -189,8 +218,14 @@ const CreateDriverForm = () => {
         <button type="submit" className="formButtom">
           Create
         </button>
+        <div className="conatinerError">
+          {" "}
+          {emptyFieldsError && (
+            <div className="errorForm">{emptyFieldsError}</div>
+          )}
+          {error && <div className="errorForm">{error}</div>}
+        </div>
       </form>
-      {error && <p>{error}</p>}
     </main>
   );
 };
