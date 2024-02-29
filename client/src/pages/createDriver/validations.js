@@ -77,6 +77,26 @@ const isDriverExists = async (forename, surname) => {
   }
 };
 
+const capitalizeFirstLetter = (str) => {
+  return str.replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+const formatDOB = (input) => {
+  const cleanedInput = input.replace(/[^\d]/g, "");
+
+  const truncatedInput = cleanedInput.substring(0, 8);
+
+  const formattedInput = truncatedInput
+    .split("")
+    .map((char, index) => {
+      if (index === 2 || index === 4) return "/" + char;
+      return char;
+    })
+    .join("");
+
+  return formattedInput;
+};
+
 export {
   validateEmptyFields,
   validateDateFormat,
@@ -84,4 +104,6 @@ export {
   validateImageFormat,
   validateTeams,
   isDriverExists,
+  capitalizeFirstLetter,
+  formatDOB,
 };

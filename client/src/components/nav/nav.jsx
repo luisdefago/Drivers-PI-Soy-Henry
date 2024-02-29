@@ -1,13 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SearchBar from "../searchBar/searchBar";
 import "./nav.css";
 
 const Nav = () => {
+  const { pathname } = useLocation();
+
   return (
     <header className="header">
       <nav className="nav">
         <Link to={"/"}>
-          <button className="navButton">Close</button>
+          <button className="navButton navButtonClose">Close</button>
         </Link>
         <div className="navButtons">
           <Link to={"/home"}>
@@ -17,10 +19,12 @@ const Nav = () => {
             <button className="navButton">Create</button>
           </Link>
           <div className="navSearch">
-            <SearchBar />
+            {pathname === "/home" && <SearchBar />}
           </div>
         </div>
-        <div></div>
+        <div>
+          <img src="/assets/logo-F1.png" alt="F1" className="navLogo" />
+        </div>
       </nav>
     </header>
   );

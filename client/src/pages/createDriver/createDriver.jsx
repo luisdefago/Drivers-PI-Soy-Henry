@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { createDriverRequest } from "../../redux/actions/actionsCreators";
 import {
+  capitalizeFirstLetter,
+  formatDOB,
   isDriverExists,
   validateDateFormat,
   validateEmptyFields,
@@ -127,6 +129,30 @@ const CreateDriverForm = () => {
     return true;
   };
 
+  const handleForenameChange = (event) => {
+    setForename(capitalizeFirstLetter(event.target.value));
+  };
+
+  const handleSurnameChange = (event) => {
+    setSurname(capitalizeFirstLetter(event.target.value));
+  };
+
+  const handleNationalityChange = (event) => {
+    setNationality(capitalizeFirstLetter(event.target.value));
+  };
+
+  const handleTeamsChange = (event) => {
+    setTeams(capitalizeFirstLetter(event.target.value));
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(capitalizeFirstLetter(event.target.value));
+  };
+
+  const handleDOBChange = (event) => {
+    setDob(formatDOB(event.target.value));
+  };
+
   return (
     <main className="form">
       <form onSubmit={handleSubmit} className="formContainer">
@@ -140,8 +166,8 @@ const CreateDriverForm = () => {
               type="text"
               id="forename"
               value={forename}
-              onChange={(e) => setForename(e.target.value)}
-              placeholder="Enter forename (no numbers or special characters)"
+              onChange={handleForenameChange}
+              placeholder="Forename (no numbers or special characters)"
               className="formInput"
             />
             {forenameError && <div className="errorForm">{forenameError}</div>}
@@ -152,8 +178,8 @@ const CreateDriverForm = () => {
               type="text"
               id="surname"
               value={surname}
-              onChange={(e) => setSurname(e.target.value)}
-              placeholder="Enter surname (no numbers or special characters)"
+              onChange={handleSurnameChange}
+              placeholder="Surname (no numbers or special characters)"
               className="formInput"
             />
             {surnameError && <div className="errorForm">{surnameError}</div>}
@@ -164,7 +190,7 @@ const CreateDriverForm = () => {
               type="text"
               id="teams"
               value={teams}
-              onChange={(e) => setTeams(e.target.value)}
+              onChange={handleTeamsChange}
               placeholder="Enter teams (Ferrari, Mercedes)"
               className="formInput"
             />
@@ -176,7 +202,7 @@ const CreateDriverForm = () => {
               type="text"
               id="nationality"
               value={nationality}
-              onChange={(e) => setNationality(e.target.value)}
+              onChange={handleNationalityChange}
               placeholder="Enter nationality"
               className="formInput"
             />
@@ -190,7 +216,7 @@ const CreateDriverForm = () => {
               type="text"
               id="dob"
               value={dob}
-              onChange={(e) => setDob(e.target.value)}
+              onChange={handleDOBChange}
               placeholder="Enter date of birth (dd/mm/yyyy)"
               className="formInput"
             />
@@ -215,7 +241,7 @@ const CreateDriverForm = () => {
             <textarea
               id="description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={handleDescriptionChange}
               className="formTextarea"
               maxLength={1400}
               placeholder="Enter description"

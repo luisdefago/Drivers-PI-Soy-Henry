@@ -50,6 +50,10 @@
   width: 350px;
 }
 
+.formInput::placeholder{
+  font-weight: 600;
+}
+
 .formContInutsTextarea {
   display: flex;
 }
@@ -90,6 +94,11 @@
   width: 500px;
   height: 350px;
   resize: none;
+}
+
+.formTextarea::placeholder{
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .formContTextarea{
