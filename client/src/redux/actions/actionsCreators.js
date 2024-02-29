@@ -85,9 +85,7 @@ export const searchDrivers = (name) => {
       });
     } catch (error) {
       console.error("Error al buscar conductores:", error);
-      alert(
-        "Ha ocurrido un error al buscar conductores. Por favor, intenta de nuevo más tarde."
-      );
+      alert("No drivers were found with that name. You can try creating one.");
     }
   };
 };
@@ -100,19 +98,14 @@ export const searchDriverByName = (name) => {
       );
       const { data } = response;
 
-      // Verificar si se encontró algún conductor
       if (!Array.isArray(data) || data.length === 0) {
-        return null; // No se encontró ningún conductor
+        return null;
       }
 
-      // Retornar el primer conductor encontrado
       return data[0];
     } catch (error) {
       console.error("Error al buscar conductor por nombre:", error);
-      alert(
-        "Hubo un error al buscar conductor por nombre. Por favor, inténtalo de nuevo más tarde."
-      );
-      return null; // Manejo de errores: devolver null
+      return null;
     }
   };
 };

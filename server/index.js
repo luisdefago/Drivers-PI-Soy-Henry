@@ -3,7 +3,6 @@ const server = require("./src/server");
 const { conn } = require("./src/db.js");
 const PORT = 3001;
 
-// cuando vaya a presentar setear force como false
 conn
   .sync({ force: true })
   .then(() => {

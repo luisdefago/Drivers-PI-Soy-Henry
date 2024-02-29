@@ -5,7 +5,7 @@ import { searchDrivers } from "../../redux/actions/actionsCreators";
 
 export default function SearchBar() {
   const [name, setName] = useState("");
-  const dispatch = useDispatch(); // Obtén la función dispatch del store
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setName(event.target.value);

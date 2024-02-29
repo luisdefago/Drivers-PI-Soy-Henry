@@ -66,11 +66,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         drivers: newDrivers,
         filteredDrivers: mergedDrivers,
-        filter: {
-          ...state.filter,
-          origin: "all",
-          teams: "all",
-        },
       };
 
     case FETCH_DRIVERS:

@@ -3,6 +3,7 @@ const { Sequelize } = require("sequelize");
 const { Driver, Team } = require("../db");
 
 const getDriversByNameFromDatabase = async (name) => {
+  // Buscar conductores por nombre en la db
   const drivers = await Driver.findAll({
     where: {
       [Sequelize.Op.or]: [
@@ -13,7 +14,7 @@ const getDriversByNameFromDatabase = async (name) => {
     },
     include: [{ model: Team, through: "DriverTeam" }],
   });
-
+  // Devolver los conductores encontrados
   return drivers;
 };
 

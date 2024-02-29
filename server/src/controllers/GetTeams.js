@@ -1,6 +1,7 @@
 const { Team } = require("../db");
 const axios = require("axios");
 
+// Elimina teams repetidos
 const getUniqueTeams = (drivers) => {
   const teamsSet = new Set();
   drivers.forEach((driver) => {
@@ -26,11 +27,13 @@ const getUniqueTeams = (drivers) => {
   return Array.from(teamsSet);
 };
 
+// Obtiene los equipos almacenados en la base de datos
 const getTeamsFromDatabase = async () => {
   const teams = await Team.findAll();
   return teams.map((team) => team.name);
 };
 
+// Obtiene los equipos desde la API
 const getTeamsFromAPI = async () => {
   try {
     const response = await axios.get(
@@ -45,6 +48,7 @@ const getTeamsFromAPI = async () => {
   }
 };
 
+// Guarda los equipos en la base de datos
 const saveTeamsToDatabase = async (teams) => {
   try {
     const existingTeams = await Team.findAll();
@@ -59,6 +63,7 @@ const saveTeamsToDatabase = async (teams) => {
   }
 };
 
+// Obtiene los equipos, primero desde la base de datos y luego desde la API si no hay ninguno en la base de datos
 const getTeams = async () => {
   let teamsFromDatabase;
   try {

@@ -81,6 +81,16 @@ const capitalizeFirstLetter = (str) => {
   return str.replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
+const capitalizeFirstWord = (str) => {
+  const words = str.split(" ");
+
+  if (words.length > 0) {
+    words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+  }
+
+  return words.join(" ");
+};
+
 const formatDOB = (input) => {
   const cleanedInput = input.replace(/[^\d]/g, "");
 
@@ -106,4 +116,5 @@ export {
   isDriverExists,
   capitalizeFirstLetter,
   formatDOB,
+  capitalizeFirstWord,
 };

@@ -3,9 +3,10 @@ const {
   getDriversByNameFromServer,
 } = require("../controllers/GetDriverByName");
 
+// Maneja la obtención de un conductor por su name
 const getDriversByName = async (req, res) => {
   try {
-    const { name } = req.query; // Obtener el nombre de la consulta
+    const { name } = req.query;
 
     // Buscar conductores en la base de datos y en el servidor
     const driversFromDatabase = await getDriversByNameFromDatabase(name);
@@ -35,6 +36,7 @@ const getDriversByName = async (req, res) => {
 
     return res.json(first15Drivers);
   } catch (error) {
+    // Maneja cualquier error ocurrido durante el proceso
     console.error("Error al buscar conductores:", error);
     return res.status(500).json({ message: "Error al buscar conductores." });
   }

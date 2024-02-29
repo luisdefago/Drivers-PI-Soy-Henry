@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { createDriverRequest } from "../../redux/actions/actionsCreators";
 import {
   capitalizeFirstLetter,
+  capitalizeFirstWord,
   formatDOB,
   isDriverExists,
   validateDateFormat,
@@ -146,7 +147,7 @@ const CreateDriverForm = () => {
   };
 
   const handleDescriptionChange = (event) => {
-    setDescription(capitalizeFirstLetter(event.target.value));
+    setDescription(capitalizeFirstWord(event.target.value));
   };
 
   const handleDOBChange = (event) => {
