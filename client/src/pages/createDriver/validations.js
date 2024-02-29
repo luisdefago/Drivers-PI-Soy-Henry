@@ -70,7 +70,7 @@ const isDriverExists = async (forename, surname) => {
     const driverDataExists = await searchDriverByName(
       `${forename} ${surname}`
     )();
-    console.log(driverDataExists);
+
     return !!driverDataExists;
   } catch (error) {
     return false;

@@ -66,7 +66,6 @@ export const searchDrivers = (name) => {
       const currentState = getState();
 
       if (!Array.isArray(data) || data.length === 0) {
-        console.log("No se encontraron conductores con este nombre.");
         return;
       }
 
@@ -77,7 +76,6 @@ export const searchDrivers = (name) => {
       });
 
       if (filteredDrivers.length === 0) {
-        console.log("Todos los conductores ya están en la lista.");
         return;
       }
 
@@ -104,7 +102,6 @@ export const searchDriverByName = (name) => {
 
       // Verificar si se encontró algún conductor
       if (!Array.isArray(data) || data.length === 0) {
-        console.log("No se encontró conductor con este nombre.");
         return null; // No se encontró ningún conductor
       }
 
@@ -193,7 +190,6 @@ export const createDriverRequest = (driverData) => {
   return async (dispatch) => {
     dispatch({ type: CREATE_DRIVER_REQUEST });
     try {
-      console.log(driverData);
       await axios.post("http://127.0.0.1:3001/drivers/addDriver", driverData);
       dispatch({ type: CREATE_DRIVER_SUCCESS });
     } catch (error) {

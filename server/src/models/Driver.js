@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  console.log("Definiendo modelo Driver...");
   sequelize.define("Driver", {
     id: {
       type: DataTypes.UUID,

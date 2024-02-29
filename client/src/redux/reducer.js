@@ -134,7 +134,6 @@ const reducer = (state = initialState, action) => {
 
       if (teams !== "all") {
         filteredDrivers = state.drivers.filter((driver) => {
-          console.log(driver);
           return (
             driver &&
             ((Array.isArray(driver?.Teams) &&
@@ -148,12 +147,10 @@ const reducer = (state = initialState, action) => {
       }
 
       if (origin === "API") {
-        console.log("Filtrando por origen API");
         filteredDrivers = filteredDrivers.filter(
           (driver) => driver && driver.driverRef
         );
       } else if (origin === "DB") {
-        console.log("Filtrando por origen DB");
         filteredDrivers = filteredDrivers.filter(
           (driver) => driver && !driver.driverRef
         );
