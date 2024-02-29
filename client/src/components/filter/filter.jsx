@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { setOrderDob, setOrderName } from "../../redux/actions/actionsCreators";
 import { useDispatch, useSelector } from "react-redux";
+import "./filter.css";
 
 const Filter = ({ teams, handleFilter }) => {
   const filterstateGlobal = useSelector((state) => state.filter);

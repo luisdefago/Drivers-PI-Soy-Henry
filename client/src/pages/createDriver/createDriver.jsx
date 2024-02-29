@@ -235,7 +235,7 @@ const CreateDriverForm = () => {
             {imageError && <div className="errorForm">{imageError}</div>}
           </div>
           <div className="formContTextarea">
-            <label htmlFor="description" className="formLabel">
+            <label htmlFor="description" className="formLabelText">
               Description:
             </label>
             <textarea

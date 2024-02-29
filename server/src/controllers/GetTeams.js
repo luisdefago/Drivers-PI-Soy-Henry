@@ -7,11 +7,19 @@ const getUniqueTeams = (drivers) => {
     if (typeof driver.teams === "string") {
       const teamsArray = driver.teams.split(",");
       teamsArray.forEach((team) => {
-        teamsSet.add(team.trim());
+        // Eliminar espacios al principio y al final del nombre del equipo
+        team = team.trim();
+        // Reemplazar cualquier tipo de guión por guiones con un solo espacio
+        team = team.replace(/[-−–—]/g, "-");
+        teamsSet.add(team);
       });
     } else if (Array.isArray(driver.teams)) {
       driver.teams.forEach((team) => {
-        teamsSet.add(team.trim());
+        // Eliminar espacios al principio y al final del nombre del equipo
+        team = team.trim();
+        // Reemplazar cualquier tipo de guión por guiones con un solo espacio
+        team = team.replace(/[-−–—]/g, "-");
+        teamsSet.add(team);
       });
     }
   });

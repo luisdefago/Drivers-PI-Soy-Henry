@@ -39,6 +39,7 @@
   color: #ffffff;
   margin: 10px;
   text-align: left;
+  margin-left: calc(10%);
 }
 
 .formInput {
@@ -48,6 +49,7 @@
   border: solid black 1px;
   background-color: white;
   width: 350px;
+  margin-left: calc(10%);
 }
 
 .formInput::placeholder{
@@ -99,6 +101,13 @@
 .formTextarea::placeholder{
   font-size: 20px;
   font-weight: 500;
+}
+
+.formLabelText{
+  font-size: 28px;
+  color: #ffffff;
+  margin: 10px;
+  text-align: left;
 }
 
 .formContTextarea{
