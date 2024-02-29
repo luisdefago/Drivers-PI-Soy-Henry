@@ -1,15 +1,19 @@
 // Filter.js
 import { useState, useEffect } from "react";
 import { setOrderDob, setOrderName } from "../../redux/actions/actionsCreators";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Filter = ({ teams, handleFilter }) => {
-  const [filterstate, setFilterstate] = useState({
-    teams: "all",
-    origin: "all",
-  });
-  const [selectedOrder, setSelectedOrder] = useState("name");
-  const [selectedDirection, setSelectedDirection] = useState("ASC");
+  const filterstateGlobal = useSelector((state) => state.filter);
+  const [filterstate, setFilterstate] = useState(filterstateGlobal);
+  const selectedOrderGlobal = useSelector((state) => state.selectedOrder);
+  const selectedDirectionGlobal = useSelector(
+    (state) => state.selectedDirection
+  );
+  const [selectedOrder, setSelectedOrder] = useState(selectedOrderGlobal);
+  const [selectedDirection, setSelectedDirection] = useState(
+    selectedDirectionGlobal
+  );
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
@@ -28,7 +32,7 @@ const Filter = ({ teams, handleFilter }) => {
 
   useEffect(() => {
     handleFilter(filterstate);
-  }, [filterstate]);
+  }, [handleFilter, filterstate, filterstateGlobal]);
 
   useEffect(() => {
     if (selectedOrder === "name" || selectedOrder === "dob") {
@@ -44,7 +48,7 @@ const Filter = ({ teams, handleFilter }) => {
     <div className="homeOrder">
       <div className="homeConteinerSelect">
         <select
-          value={selectedOrder}
+          value={selectedOrderGlobal}
           name="order"
           onChange={handleChange}
           className="homeOrderSelect"
@@ -53,7 +57,7 @@ const Filter = ({ teams, handleFilter }) => {
           <option value="dob">Order by Date of Birth</option>
         </select>
         <select
-          value={selectedDirection}
+          value={selectedDirectionGlobal}
           name="direction"
           onChange={handleChange}
           className="homeOrderSelect"
@@ -65,7 +69,7 @@ const Filter = ({ teams, handleFilter }) => {
       <div className="homeConteinerSelect">
         <label className="homeOrderLabel">Origin : </label>
         <select
-          value={filterstate.origin}
+          value={filterstateGlobal.origin}
           name="origin"
           onChange={handleChange}
           className="homeOrderSelect"
@@ -78,7 +82,7 @@ const Filter = ({ teams, handleFilter }) => {
       <div className="homeConteinerSelect borderRight">
         <label className="homeOrderLabel">Team : </label>
         <select
-          value={filterstate.teams}
+          value={filterstateGlobal.teams}
           onChange={handleChange}
           className="homeOrderSelect"
           name="teams"

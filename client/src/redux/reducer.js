@@ -22,6 +22,10 @@ const initialState = {
   driversPerPage: 9,
   selectedOrder: "name",
   selectedDirection: "ASC",
+  filter: {
+    origin: "all",
+    teams: "all",
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -62,7 +66,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         drivers: newDrivers,
         filteredDrivers: mergedDrivers,
-        origin: "all",
+        filter: {
+          ...state.filter,
+          origin: "all",
+          teams: "all",
+        },
       };
 
     case FETCH_DRIVERS:
@@ -159,6 +167,11 @@ const reducer = (state = initialState, action) => {
 
       return {
         ...state,
+        filter: {
+          ...state.filter,
+          teams: action.payload.teams,
+          origin: action.payload.origin,
+        },
         filteredDrivers: filteredDrivers,
       };
 

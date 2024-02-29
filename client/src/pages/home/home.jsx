@@ -11,10 +11,8 @@ import Filter from "../../components/filter/filter";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
-  const [filterstate, setFilterstate] = useState({
-    teams: "all",
-    origin: "all",
-  });
+  const filterstateGlobal = useSelector((state) => state.filter);
+  const [filterstate, setFilterstate] = useState(filterstateGlobal);
   const dispatch = useDispatch();
   const filteredDrivers = useSelector((state) => state.filteredDrivers);
   const currentPage = useSelector((state) => state.currentPage);
@@ -57,7 +55,7 @@ const Home = () => {
   }, [dispatch]);
 
   const handleFilter = (filterData) => {
-    setFilterstate(filterData); // Actualiza el estado filterstate cuando cambia el filtro
+    setFilterstate(filterData);
   };
 
   return (
