@@ -5,6 +5,7 @@ import Nav from "./components/nav/nav";
 import Home from "./pages/home/home";
 import Detail from "./pages/detail/detail";
 import CreateDriverForm from "./pages/createDriver/createDriver";
+import Error404 from "./pages/error/error";
 
 function App() {
   const { pathname } = useLocation();
@@ -17,6 +18,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/form" element={<CreateDriverForm />} />
         <Route path="/detail/:id" element={<Detail />} />
+        <Route path="*" element={<Error404 />} />
       </Routes>
     </div>
   );
